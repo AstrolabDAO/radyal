@@ -1,663 +1,10183 @@
 const now = new Date().toISOString();
 
-const makeBlocky = (seed: string) => ({
-  seed,
-  seedArr: [1, 2, 3, 4],
-  theme: {
-    name: "default",
-    primary: "#627EEA",
-    secondary: "#3C3C3D",
-    bg: ["#1a1b2e", "#0d0e1a"],
-    fg: ["#ffffff", "#e0e0e0"],
-    shadow: ["#000000"],
-    overlay: ["rgba(0,0,0,0.5)"],
-    palette: ["#627EEA", "#B6509E", "#00D395"],
-    primaryPalette: ["#627EEA"],
-    success: "#00D395",
-    warning: "#F0B90B",
-    error: "#FF4444",
-    notice: "#00A3FF",
-    info: "#627EEA",
-    debug: "#888888",
-    bgSuccess: "#003322",
-    bgWarning: "#332200",
-    bgError: "#330011",
-    bgDebug: "#222222",
-    bgNotice: "#002233",
-    bgInfo: "#001133",
-  },
-  size: 8,
-  scale: 4,
-  color: "#627EEA",
-  bgColor: "#1a1b2e",
-  spotColor: "#B6509E",
-  canvas: null,
-  ctx: null,
-  dataUrl: "",
-  rendered: false,
-});
-
-const makeScoring = (safety: number, profit: number, scale: number, liq: number) => ({
-  value: Math.round((safety * 0.3 + profit * 0.3 + scale * 0.2 + liq * 0.2) * 100) / 100,
-  weight: 1,
-  description: "Overall strategy score",
-  safety: { value: safety, weight: 0.3, description: "Safety and audit score" },
-  profitability: { value: profit, weight: 0.3, description: "Historical profitability" },
-  scalability: { value: scale, weight: 0.2, description: "TVL capacity", _id: "sc1" },
-  liquidity: { value: liq, weight: 0.2, description: "Liquidity depth", _id: "lq1" },
-});
-
-const makeValuable = (sharePrice: number, apy: number, volume: number, weiPerUnit: number) => ({
-  initial: {
-    date: "2024-01-15T00:00:00.000Z",
-    sharePrice: 1.0,
-    volume: 0,
-    ror: 0,
-    exposureByNetwork: null,
-    exposureByProtocol: null,
-    exposureByNetworkByProtocol: null,
-  },
-  last: {
-    date: now,
-    sharePrice,
-    investedApyDaily: apy,
-    investedApyWeekly: apy * 1.02,
-    volume: volume * weiPerUnit,
-    ror: sharePrice - 1.0,
-    exposureByNetwork: null,
-    exposureByProtocol: null,
-    exposureByNetworkByProtocol: null,
-  },
-  performances: null,
-  denomination: "usdc",
-  dateStart: 1705276800,
-  dateStop: Math.floor(Date.now() / 1000),
-});
-
 export const strategies = [
   {
-    _id: "66c1d2e3f4a5b6c7d8e9f0a1",
-    isLastRevision: true, revision: 1, createdBy: "system", updatedBy: "system",
-    name: "Aave USDC Lending", slug: "as:aave-usdc-lending",
-    description: "Lend USDC on Aave V3 to earn supply interest. Conservative strategy with battle-tested smart contracts.",
-    shortDescription: "USDC lending on Aave V3",
-    descriptionSlides: [], color1: "#B6509E", color2: "#2EBAC6",
-    landing: "", docs: "", codebase: "", app: "", twitter: "", blog: "", discord: "", email: "", telegram: "",
-    contract: "", token: "asUSDC",
-    isDummy: false,
-    blocky: makeBlocky("aave-usdc-lending"),
-    nativeAddress: "0x1234567890abcdef1234567890abcdef12345001",
-    shortAddress: "0x1234...5001",
-    nonNativeAddresses: [],
-    exposureNetworks: ["ethereum-mainnet"],
-    nativeNetwork: "ethereum-mainnet",
-    standards: [], explorer: "https://etherscan.io/address/0x1234567890abcdef1234567890abcdef12345001",
-    status: "active", symbol: "asUSDC",
-    chainlinkId: "", coinGeckoId: "", coinMarketCapId: "", defiLlamaId: "",
-    exponentialId: "", defiSafetyId: "", solityId: "",
-    weiPerUnit: 1e6, scale: 6,
-    addressCount: 245,
-    issuancePrice: 1.0, markPrice: 1.042,
-    issuanceSupply: 5000000, supply: 4850000, maxSupply: 50000000,
-    lockedSupply: 0, circulatingSupply: 4850000,
-    marketCap: 5052700, dilutedMarketCap: 52100000,
-    buyEnabled: true, sellEnabled: true,
-    buyTax: 0, sellTax: 0, minBuy: 1, maxBuy: 10000000, minSell: 1, maxSell: 10000000,
-    id: 1, denomination: "usdc",
-    rewardTokens: [],
-    valuable: makeValuable(1.042, 4.85, 4850000, 1e6),
-    protocols: ["aave"],
-    types: ["lending"],
-    fees: { entry: 0, exit: 0, mgmt: 0.002, perf: 0.1 },
-    limits: { minDeposit: 1, minWithdrawal: 1, maxDeposit: 10000000, maxSlippage: 0.005 },
-    scoring: makeScoring(9.0, 7.0, 9.0, 9.0),
-    deDotFiInfo: null, coinGeckoInfo: null, exponentialInfo: null, contracts: {},
-    createdAt: now, updatedAt: now,
+    "name": "Lido STETH",
+    "slug": "as:lido-steth-ethereum",
+    "symbol": "asSTETH",
+    "description": "Lido STETH strategy on Ethereum",
+    "shortDescription": "Lido yield on Ethereum",
+    "nativeAddress": "0x00000000000000000000000000000000000003e8",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "weth",
+    "decimals": 18,
+    "scale": 18,
+    "weiPerUnit": 1000000000000000000,
+    "id": 1000,
+    "apy": 2.37,
+    "tvl": 19670038738,
+    "protocols": [
+      "lido"
+    ],
+    "rewardTokens": [],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "lending"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1.01186,
+        "investedApyDaily": 2.372,
+        "investedApyWeekly": 16.604,
+        "volume": 1967003873.8000002,
+        "ror": 0.011859999999999999,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "weth",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:lido-steth-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_0",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "747c1d2a-c668-4682-b9f9-296708a3dd90",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
   },
   {
-    _id: "66c1d2e3f4a5b6c7d8e9f0a2",
-    isLastRevision: true, revision: 1, createdBy: "system", updatedBy: "system",
-    name: "Lido stETH Yield", slug: "as:lido-steth-yield",
-    description: "Stake ETH through Lido to receive stETH and earn Ethereum staking rewards.",
-    shortDescription: "ETH liquid staking via Lido",
-    descriptionSlides: [], color1: "#00A3FF", color2: "#0082CC",
-    landing: "", docs: "", codebase: "", app: "", twitter: "", blog: "", discord: "", email: "", telegram: "",
-    contract: "", token: "asETH",
-    isDummy: false,
-    blocky: makeBlocky("lido-steth-yield"),
-    nativeAddress: "0x1234567890abcdef1234567890abcdef12345002",
-    shortAddress: "0x1234...5002",
-    nonNativeAddresses: [],
-    exposureNetworks: ["ethereum-mainnet"],
-    nativeNetwork: "ethereum-mainnet",
-    standards: [], explorer: "https://etherscan.io/address/0x1234567890abcdef1234567890abcdef12345002",
-    status: "active", symbol: "asETH",
-    chainlinkId: "", coinGeckoId: "", coinMarketCapId: "", defiLlamaId: "",
-    exponentialId: "", defiSafetyId: "", solityId: "",
-    weiPerUnit: 1e18, scale: 18,
-    addressCount: 512,
-    issuancePrice: 1.0, markPrice: 1.035,
-    issuanceSupply: 10000, supply: 9500, maxSupply: 1000000,
-    lockedSupply: 0, circulatingSupply: 9500,
-    marketCap: 28500000, dilutedMarketCap: 3000000000,
-    buyEnabled: true, sellEnabled: true,
-    buyTax: 0, sellTax: 0, minBuy: 0.01, maxBuy: 100000, minSell: 0.01, maxSell: 100000,
-    id: 2, denomination: "weth",
-    rewardTokens: [],
-    valuable: makeValuable(1.035, 3.52, 9500, 1e18),
-    protocols: ["lido"],
-    types: ["staking", "liquid-staking"],
-    fees: { entry: 0, exit: 0, mgmt: 0.001, perf: 0.1 },
-    limits: { minDeposit: 0.01, minWithdrawal: 0.01, maxDeposit: 100000, maxSlippage: 0.005 },
-    scoring: makeScoring(9.5, 7.5, 9.0, 8.5),
-    deDotFiInfo: null, coinGeckoInfo: null, exponentialInfo: null, contracts: {},
-    createdAt: now, updatedAt: now,
+    "name": "Curve USBTC-ABASCBBTC-USBTCD",
+    "slug": "as:curve-dex-usbtc-abascbbtc-usbtcd-base",
+    "symbol": "asUSBTC-AB",
+    "description": "Curve USBTC-ABASCBBTC-USBTCD strategy on Base",
+    "shortDescription": "Curve yield on Base",
+    "nativeAddress": "0x00000000000000000000000000000000000003e9",
+    "nativeNetwork": "base-mainnet",
+    "denomination": "wbtc",
+    "decimals": 8,
+    "scale": 8,
+    "weiPerUnit": 100000000,
+    "id": 8453001,
+    "apy": 0,
+    "tvl": 19301542581,
+    "protocols": [
+      "curve-dex"
+    ],
+    "rewardTokens": [],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "base-mainnet"
+    ],
+    "types": [
+      "liquidity-providing"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1,
+        "investedApyDaily": 0,
+        "investedApyWeekly": 0,
+        "volume": 1930154258.1000001,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "wbtc",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:curve-dex-usbtc-abascbbtc-usbtcd-base",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_1",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x2105",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "fc91631e-15f9-4064-8e77-0f898270ed67",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
   },
   {
-    _id: "66c1d2e3f4a5b6c7d8e9f0a3",
-    isLastRevision: true, revision: 1, createdBy: "system", updatedBy: "system",
-    name: "Curve 3pool LP", slug: "as:curve-3pool-lp",
-    description: "Provide liquidity to Curve's 3pool (DAI/USDC/USDT) and earn trading fees plus CRV rewards.",
-    shortDescription: "Curve stablecoin LP",
-    descriptionSlides: [], color1: "#FF6B6B", color2: "#0000FF",
-    landing: "", docs: "", codebase: "", app: "", twitter: "", blog: "", discord: "", email: "", telegram: "",
-    contract: "", token: "as3CRV",
-    isDummy: false,
-    blocky: makeBlocky("curve-3pool-lp"),
-    nativeAddress: "0x1234567890abcdef1234567890abcdef12345003",
-    shortAddress: "0x1234...5003",
-    nonNativeAddresses: [],
-    exposureNetworks: ["ethereum-mainnet"],
-    nativeNetwork: "ethereum-mainnet",
-    standards: [], explorer: "https://etherscan.io/address/0x1234567890abcdef1234567890abcdef12345003",
-    status: "active", symbol: "as3CRV",
-    chainlinkId: "", coinGeckoId: "", coinMarketCapId: "", defiLlamaId: "",
-    exponentialId: "", defiSafetyId: "", solityId: "",
-    weiPerUnit: 1e18, scale: 18,
-    addressCount: 189,
-    issuancePrice: 1.0, markPrice: 1.068,
-    issuanceSupply: 8000000, supply: 7200000, maxSupply: 100000000,
-    lockedSupply: 0, circulatingSupply: 7200000,
-    marketCap: 7689600, dilutedMarketCap: 106800000,
-    buyEnabled: true, sellEnabled: true,
-    buyTax: 0, sellTax: 0, minBuy: 1, maxBuy: 10000000, minSell: 1, maxSell: 10000000,
-    id: 3, denomination: "usdc",
-    rewardTokens: ["crv"],
-    valuable: makeValuable(1.068, 8.42, 7200000, 1e18),
-    protocols: ["curve"],
-    types: ["dex", "amm"],
-    fees: { entry: 0, exit: 0, mgmt: 0.002, perf: 0.15 },
-    limits: { minDeposit: 10, minWithdrawal: 10, maxDeposit: 50000000, maxSlippage: 0.005 },
-    scoring: makeScoring(8.5, 8.0, 8.5, 8.0),
-    deDotFiInfo: null, coinGeckoInfo: null, exponentialInfo: null, contracts: {},
-    createdAt: now, updatedAt: now,
+    "name": "Aave V3 WEETH",
+    "slug": "as:aave-v3-weeth-ethereum",
+    "symbol": "asWEETH",
+    "description": "Aave V3 WEETH strategy on Ethereum",
+    "shortDescription": "Aave V3 yield on Ethereum",
+    "nativeAddress": "0x00000000000000000000000000000000000003ea",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "weth",
+    "decimals": 18,
+    "scale": 18,
+    "weiPerUnit": 1000000000000000000,
+    "id": 1002,
+    "apy": 0,
+    "tvl": 4776495050,
+    "protocols": [
+      "aave-v3"
+    ],
+    "rewardTokens": [],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "lending"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1.0000005,
+        "investedApyDaily": 0.0001,
+        "investedApyWeekly": 0.0007,
+        "volume": 477649505,
+        "ror": 5e-7,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "weth",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:aave-v3-weeth-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_2",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "db678df9-3281-4bc2-a8bb-01160ffd6d48",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
   },
   {
-    _id: "66c1d2e3f4a5b6c7d8e9f0a4",
-    isLastRevision: true, revision: 1, createdBy: "system", updatedBy: "system",
-    name: "Compound USDT Supply", slug: "as:compound-usdt-supply",
-    description: "Supply USDT to Compound V3 to earn variable interest rates.",
-    shortDescription: "USDT lending on Compound V3",
-    descriptionSlides: [], color1: "#00D395", color2: "#00A876",
-    landing: "", docs: "", codebase: "", app: "", twitter: "", blog: "", discord: "", email: "", telegram: "",
-    contract: "", token: "asUSDT",
-    isDummy: false,
-    blocky: makeBlocky("compound-usdt-supply"),
-    nativeAddress: "0x1234567890abcdef1234567890abcdef12345004",
-    shortAddress: "0x1234...5004",
-    nonNativeAddresses: [],
-    exposureNetworks: ["ethereum-mainnet"],
-    nativeNetwork: "ethereum-mainnet",
-    standards: [], explorer: "https://etherscan.io/address/0x1234567890abcdef1234567890abcdef12345004",
-    status: "active", symbol: "asUSDT",
-    chainlinkId: "", coinGeckoId: "", coinMarketCapId: "", defiLlamaId: "",
-    exponentialId: "", defiSafetyId: "", solityId: "",
-    weiPerUnit: 1e6, scale: 6,
-    addressCount: 178,
-    issuancePrice: 1.0, markPrice: 1.038,
-    issuanceSupply: 3000000, supply: 2850000, maxSupply: 30000000,
-    lockedSupply: 0, circulatingSupply: 2850000,
-    marketCap: 2958300, dilutedMarketCap: 31140000,
-    buyEnabled: true, sellEnabled: true,
-    buyTax: 0, sellTax: 0, minBuy: 1, maxBuy: 10000000, minSell: 1, maxSell: 10000000,
-    id: 4, denomination: "usdt",
-    rewardTokens: ["comp"],
-    valuable: makeValuable(1.038, 5.12, 2850000, 1e6),
-    protocols: ["compound"],
-    types: ["lending"],
-    fees: { entry: 0, exit: 0, mgmt: 0.002, perf: 0.1 },
-    limits: { minDeposit: 1, minWithdrawal: 1, maxDeposit: 10000000, maxSlippage: 0.005 },
-    scoring: makeScoring(8.5, 7.5, 8.5, 8.5),
-    deDotFiInfo: null, coinGeckoInfo: null, exponentialInfo: null, contracts: {},
-    createdAt: now, updatedAt: now,
+    "name": "Aave V3 WSTETH",
+    "slug": "as:aave-v3-wsteth-ethereum",
+    "symbol": "asWSTETH",
+    "description": "Aave V3 WSTETH strategy on Ethereum",
+    "shortDescription": "Aave V3 yield on Ethereum",
+    "nativeAddress": "0x00000000000000000000000000000000000003eb",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "weth",
+    "decimals": 18,
+    "scale": 18,
+    "weiPerUnit": 1000000000000000000,
+    "id": 1003,
+    "apy": 0,
+    "tvl": 3344524363,
+    "protocols": [
+      "aave-v3"
+    ],
+    "rewardTokens": [],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "lending"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1.00000685,
+        "investedApyDaily": 0.00137,
+        "investedApyWeekly": 0.00959,
+        "volume": 334452436.3,
+        "ror": 0.00000685,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "weth",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:aave-v3-wsteth-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_3",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "e6435aae-cbe9-4d26-ab2c-a4d533db9972",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
   },
   {
-    _id: "66c1d2e3f4a5b6c7d8e9f0a5",
-    isLastRevision: true, revision: 1, createdBy: "system", updatedBy: "system",
-    name: "Convex stETH/ETH", slug: "as:convex-steth-eth",
-    description: "Provide stETH/ETH liquidity on Curve via Convex for boosted CRV + CVX rewards.",
-    shortDescription: "Boosted Curve stETH/ETH LP",
-    descriptionSlides: [], color1: "#3A82F7", color2: "#2E68C6",
-    landing: "", docs: "", codebase: "", app: "", twitter: "", blog: "", discord: "", email: "", telegram: "",
-    contract: "", token: "asCvxStETH",
-    isDummy: false,
-    blocky: makeBlocky("convex-steth-eth"),
-    nativeAddress: "0x1234567890abcdef1234567890abcdef12345005",
-    shortAddress: "0x1234...5005",
-    nonNativeAddresses: [],
-    exposureNetworks: ["ethereum-mainnet"],
-    nativeNetwork: "ethereum-mainnet",
-    standards: [], explorer: "https://etherscan.io/address/0x1234567890abcdef1234567890abcdef12345005",
-    status: "active", symbol: "asCvxStETH",
-    chainlinkId: "", coinGeckoId: "", coinMarketCapId: "", defiLlamaId: "",
-    exponentialId: "", defiSafetyId: "", solityId: "",
-    weiPerUnit: 1e18, scale: 18,
-    addressCount: 134,
-    issuancePrice: 1.0, markPrice: 1.089,
-    issuanceSupply: 5000, supply: 4200, maxSupply: 500000,
-    lockedSupply: 0, circulatingSupply: 4200,
-    marketCap: 12600000, dilutedMarketCap: 1500000000,
-    buyEnabled: true, sellEnabled: true,
-    buyTax: 0, sellTax: 0, minBuy: 0.01, maxBuy: 100000, minSell: 0.01, maxSell: 100000,
-    id: 5, denomination: "weth",
-    rewardTokens: ["crv", "cvx"],
-    valuable: makeValuable(1.089, 7.85, 4200, 1e18),
-    protocols: ["convex", "curve"],
-    types: ["yield", "staking"],
-    fees: { entry: 0, exit: 0, mgmt: 0.002, perf: 0.15 },
-    limits: { minDeposit: 0.01, minWithdrawal: 0.01, maxDeposit: 100000, maxSlippage: 0.01 },
-    scoring: makeScoring(8.0, 8.5, 7.5, 7.5),
-    deDotFiInfo: null, coinGeckoInfo: null, exponentialInfo: null, contracts: {},
-    createdAt: now, updatedAt: now,
+    "name": "Aave V3 WBTC",
+    "slug": "as:aave-v3-wbtc-ethereum",
+    "symbol": "asWBTC",
+    "description": "Aave V3 WBTC strategy on Ethereum",
+    "shortDescription": "Aave V3 yield on Ethereum",
+    "nativeAddress": "0x00000000000000000000000000000000000003ec",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "wbtc",
+    "decimals": 8,
+    "scale": 8,
+    "weiPerUnit": 100000000,
+    "id": 1004,
+    "apy": 0,
+    "tvl": 2906456456,
+    "protocols": [
+      "aave-v3"
+    ],
+    "rewardTokens": [],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "lending"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1.00001985,
+        "investedApyDaily": 0.00397,
+        "investedApyWeekly": 0.027789999999999995,
+        "volume": 290645645.6,
+        "ror": 0.000019849999999999998,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "wbtc",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:aave-v3-wbtc-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_4",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "7e382157-b1bc-406d-b17b-facba43b716e",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
   },
   {
-    _id: "66c1d2e3f4a5b6c7d8e9f0a6",
-    isLastRevision: true, revision: 1, createdBy: "system", updatedBy: "system",
-    name: "Aave WBTC Lending", slug: "as:aave-wbtc-lending",
-    description: "Lend WBTC on Aave V3 to earn supply interest on your Bitcoin holdings.",
-    shortDescription: "WBTC lending on Aave V3",
-    descriptionSlides: [], color1: "#F7931A", color2: "#C47514",
-    landing: "", docs: "", codebase: "", app: "", twitter: "", blog: "", discord: "", email: "", telegram: "",
-    contract: "", token: "asWBTC",
-    isDummy: false,
-    blocky: makeBlocky("aave-wbtc-lending"),
-    nativeAddress: "0x1234567890abcdef1234567890abcdef12345006",
-    shortAddress: "0x1234...5006",
-    nonNativeAddresses: [],
-    exposureNetworks: ["ethereum-mainnet"],
-    nativeNetwork: "ethereum-mainnet",
-    standards: [], explorer: "https://etherscan.io/address/0x1234567890abcdef1234567890abcdef12345006",
-    status: "active", symbol: "asWBTC",
-    chainlinkId: "", coinGeckoId: "", coinMarketCapId: "", defiLlamaId: "",
-    exponentialId: "", defiSafetyId: "", solityId: "",
-    weiPerUnit: 1e8, scale: 8,
-    addressCount: 89,
-    issuancePrice: 1.0, markPrice: 1.015,
-    issuanceSupply: 200, supply: 185, maxSupply: 10000,
-    lockedSupply: 0, circulatingSupply: 185,
-    marketCap: 11100000, dilutedMarketCap: 600000000,
-    buyEnabled: true, sellEnabled: true,
-    buyTax: 0, sellTax: 0, minBuy: 0.001, maxBuy: 1000, minSell: 0.001, maxSell: 1000,
-    id: 6, denomination: "wbtc",
-    rewardTokens: [],
-    valuable: makeValuable(1.015, 1.82, 185, 1e8),
-    protocols: ["aave"],
-    types: ["lending"],
-    fees: { entry: 0, exit: 0, mgmt: 0.002, perf: 0.1 },
-    limits: { minDeposit: 0.001, minWithdrawal: 0.001, maxDeposit: 1000, maxSlippage: 0.005 },
-    scoring: makeScoring(9.0, 6.0, 8.0, 7.5),
-    deDotFiInfo: null, coinGeckoInfo: null, exponentialInfo: null, contracts: {},
-    createdAt: now, updatedAt: now,
+    "name": "Rocket Pool RETH",
+    "slug": "as:rocket-pool-reth-ethereum",
+    "symbol": "asRETH",
+    "description": "Rocket Pool RETH strategy on Ethereum",
+    "shortDescription": "Rocket Pool yield on Ethereum",
+    "nativeAddress": "0x00000000000000000000000000000000000003ed",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "weth",
+    "decimals": 18,
+    "scale": 18,
+    "weiPerUnit": 1000000000000000000,
+    "id": 1005,
+    "apy": 1.97,
+    "tvl": 2894946020,
+    "protocols": [
+      "rocket-pool"
+    ],
+    "rewardTokens": [],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "lending"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1.0098257,
+        "investedApyDaily": 1.96514,
+        "investedApyWeekly": 13.755980000000001,
+        "volume": 289494602,
+        "ror": 0.0098257,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "weth",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:rocket-pool-reth-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_5",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "d4b3c522-6127-4b89-bedf-83641cdcd2eb",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
   },
   {
-    _id: "66c1d2e3f4a5b6c7d8e9f0a7",
-    isLastRevision: true, revision: 1, createdBy: "system", updatedBy: "system",
-    name: "Aave USDC Polygon", slug: "as:aave-usdc-polygon",
-    description: "Lend USDC on Aave V3 Polygon for higher yields with lower gas costs.",
-    shortDescription: "USDC lending on Aave V3 Polygon",
-    descriptionSlides: [], color1: "#8247E5", color2: "#B6509E",
-    landing: "", docs: "", codebase: "", app: "", twitter: "", blog: "", discord: "", email: "", telegram: "",
-    contract: "", token: "asUSDCpoly",
-    isDummy: false,
-    blocky: makeBlocky("aave-usdc-polygon"),
-    nativeAddress: "0x2234567890abcdef1234567890abcdef12345007",
-    shortAddress: "0x2234...5007",
-    nonNativeAddresses: [],
-    exposureNetworks: ["polygon-mainnet"],
-    nativeNetwork: "polygon-mainnet",
-    standards: [], explorer: "https://polygonscan.com/address/0x2234567890abcdef1234567890abcdef12345007",
-    status: "active", symbol: "asUSDCpoly",
-    chainlinkId: "", coinGeckoId: "", coinMarketCapId: "", defiLlamaId: "",
-    exponentialId: "", defiSafetyId: "", solityId: "",
-    weiPerUnit: 1e6, scale: 6,
-    addressCount: 312,
-    issuancePrice: 1.0, markPrice: 1.055,
-    issuanceSupply: 8000000, supply: 7500000, maxSupply: 80000000,
-    lockedSupply: 0, circulatingSupply: 7500000,
-    marketCap: 7912500, dilutedMarketCap: 84400000,
-    buyEnabled: true, sellEnabled: true,
-    buyTax: 0, sellTax: 0, minBuy: 1, maxBuy: 10000000, minSell: 1, maxSell: 10000000,
-    id: 7, denomination: "usdc",
-    rewardTokens: [],
-    valuable: makeValuable(1.055, 6.21, 7500000, 1e6),
-    protocols: ["aave"],
-    types: ["lending"],
-    fees: { entry: 0, exit: 0, mgmt: 0.002, perf: 0.1 },
-    limits: { minDeposit: 1, minWithdrawal: 1, maxDeposit: 10000000, maxSlippage: 0.005 },
-    scoring: makeScoring(9.0, 7.5, 9.0, 8.5),
-    deDotFiInfo: null, coinGeckoInfo: null, exponentialInfo: null, contracts: {},
-    createdAt: now, updatedAt: now,
+    "name": "Aave V3 CBBTC",
+    "slug": "as:aave-v3-cbbtc-ethereum",
+    "symbol": "asCBBTC",
+    "description": "Aave V3 CBBTC strategy on Ethereum",
+    "shortDescription": "Aave V3 yield on Ethereum",
+    "nativeAddress": "0x00000000000000000000000000000000000003ee",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "wbtc",
+    "decimals": 8,
+    "scale": 8,
+    "weiPerUnit": 100000000,
+    "id": 1006,
+    "apy": 0,
+    "tvl": 1865255800,
+    "protocols": [
+      "aave-v3"
+    ],
+    "rewardTokens": [],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "lending"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1.0000111,
+        "investedApyDaily": 0.00222,
+        "investedApyWeekly": 0.015540000000000002,
+        "volume": 186525580,
+        "ror": 0.0000111,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "wbtc",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:aave-v3-cbbtc-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_6",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "b1986007-81f3-4150-9565-94d5a4066ce4",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
   },
   {
-    _id: "66c1d2e3f4a5b6c7d8e9f0a8",
-    isLastRevision: true, revision: 1, createdBy: "system", updatedBy: "system",
-    name: "Curve Arbitrum USDC/USDT", slug: "as:curve-arb-usdc-usdt",
-    description: "Provide USDC/USDT liquidity on Curve Arbitrum for low-slippage stablecoin trading fees.",
-    shortDescription: "Curve stable LP on Arbitrum",
-    descriptionSlides: [], color1: "#28A0F0", color2: "#FF6B6B",
-    landing: "", docs: "", codebase: "", app: "", twitter: "", blog: "", discord: "", email: "", telegram: "",
-    contract: "", token: "asArbCurve",
-    isDummy: false,
-    blocky: makeBlocky("curve-arb-usdc-usdt"),
-    nativeAddress: "0x3234567890abcdef1234567890abcdef12345008",
-    shortAddress: "0x3234...5008",
-    nonNativeAddresses: [],
-    exposureNetworks: ["arbitrum-mainnet-one"],
-    nativeNetwork: "arbitrum-mainnet-one",
-    standards: [], explorer: "https://arbiscan.io/address/0x3234567890abcdef1234567890abcdef12345008",
-    status: "active", symbol: "asArbCurve",
-    chainlinkId: "", coinGeckoId: "", coinMarketCapId: "", defiLlamaId: "",
-    exponentialId: "", defiSafetyId: "", solityId: "",
-    weiPerUnit: 1e18, scale: 18,
-    addressCount: 156,
-    issuancePrice: 1.0, markPrice: 1.047,
-    issuanceSupply: 4000000, supply: 3600000, maxSupply: 40000000,
-    lockedSupply: 0, circulatingSupply: 3600000,
-    marketCap: 3769200, dilutedMarketCap: 41880000,
-    buyEnabled: true, sellEnabled: true,
-    buyTax: 0, sellTax: 0, minBuy: 1, maxBuy: 10000000, minSell: 1, maxSell: 10000000,
-    id: 8, denomination: "usdc",
-    rewardTokens: ["crv", "arb"],
-    valuable: makeValuable(1.047, 9.15, 3600000, 1e18),
-    protocols: ["curve"],
-    types: ["dex", "amm"],
-    fees: { entry: 0, exit: 0, mgmt: 0.002, perf: 0.15 },
-    limits: { minDeposit: 1, minWithdrawal: 1, maxDeposit: 10000000, maxSlippage: 0.005 },
-    scoring: makeScoring(8.5, 8.5, 8.0, 8.0),
-    deDotFiInfo: null, coinGeckoInfo: null, exponentialInfo: null, contracts: {},
-    createdAt: now, updatedAt: now,
+    "name": "Aave V3 USDT",
+    "slug": "as:aave-v3-usdt-ethereum",
+    "symbol": "asUSDT",
+    "description": "Aave V3 USDT strategy on Ethereum",
+    "shortDescription": "Aave V3 yield on Ethereum",
+    "nativeAddress": "0x00000000000000000000000000000000000003ef",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "usdt",
+    "decimals": 6,
+    "scale": 6,
+    "weiPerUnit": 1000000,
+    "id": 1007,
+    "apy": 1.71,
+    "tvl": 1806150388,
+    "protocols": [
+      "aave-v3"
+    ],
+    "rewardTokens": [],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "lending"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1.00855155,
+        "investedApyDaily": 1.71031,
+        "investedApyWeekly": 11.97217,
+        "volume": 180615038.8,
+        "ror": 0.00855155,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "usdt",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:aave-v3-usdt-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_7",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "f981a304-bb6c-45b8-b0c5-fd2f515ad23a",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
   },
   {
-    _id: "66c1d2e3f4a5b6c7d8e9f0a9",
-    isLastRevision: true, revision: 1, createdBy: "system", updatedBy: "system",
-    name: "Morpho USDC Optimizer", slug: "as:morpho-usdc-optimizer",
-    description: "Optimize USDC lending rates via Morpho's peer-to-peer matching on top of Aave.",
-    shortDescription: "P2P optimized USDC lending",
-    descriptionSlides: [], color1: "#2C3E8F", color2: "#1E2B66",
-    landing: "", docs: "", codebase: "", app: "", twitter: "", blog: "", discord: "", email: "", telegram: "",
-    contract: "", token: "asMorphoUSDC",
-    isDummy: false,
-    blocky: makeBlocky("morpho-usdc-optimizer"),
-    nativeAddress: "0x1234567890abcdef1234567890abcdef12345009",
-    shortAddress: "0x1234...5009",
-    nonNativeAddresses: [],
-    exposureNetworks: ["ethereum-mainnet"],
-    nativeNetwork: "ethereum-mainnet",
-    standards: [], explorer: "https://etherscan.io/address/0x1234567890abcdef1234567890abcdef12345009",
-    status: "active", symbol: "asMorphoUSDC",
-    chainlinkId: "", coinGeckoId: "", coinMarketCapId: "", defiLlamaId: "",
-    exponentialId: "", defiSafetyId: "", solityId: "",
-    weiPerUnit: 1e6, scale: 6,
-    addressCount: 98,
-    issuancePrice: 1.0, markPrice: 1.062,
-    issuanceSupply: 2000000, supply: 1800000, maxSupply: 20000000,
-    lockedSupply: 0, circulatingSupply: 1800000,
-    marketCap: 1911600, dilutedMarketCap: 21240000,
-    buyEnabled: true, sellEnabled: true,
-    buyTax: 0, sellTax: 0, minBuy: 1, maxBuy: 5000000, minSell: 1, maxSell: 5000000,
-    id: 9, denomination: "usdc",
-    rewardTokens: ["morpho"],
-    valuable: makeValuable(1.062, 6.75, 1800000, 1e6),
-    protocols: ["morpho", "aave"],
-    types: ["lending", "p2p"],
-    fees: { entry: 0, exit: 0, mgmt: 0.002, perf: 0.1 },
-    limits: { minDeposit: 1, minWithdrawal: 1, maxDeposit: 5000000, maxSlippage: 0.005 },
-    scoring: makeScoring(8.5, 8.0, 7.5, 7.5),
-    deDotFiInfo: null, coinGeckoInfo: null, exponentialInfo: null, contracts: {},
-    createdAt: now, updatedAt: now,
+    "name": "PancakeSwap V3 PORT3-WETH",
+    "slug": "as:pancakeswap-amm-v3-port3-weth-ethereum",
+    "symbol": "asPORT3-WE",
+    "description": "PancakeSwap V3 PORT3-WETH strategy on Ethereum",
+    "shortDescription": "PancakeSwap V3 yield on Ethereum",
+    "nativeAddress": "0x00000000000000000000000000000000000003f0",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "weth",
+    "decimals": 18,
+    "scale": 18,
+    "weiPerUnit": 1000000000000000000,
+    "id": 1008,
+    "apy": 0,
+    "tvl": 395665603,
+    "protocols": [
+      "pancakeswap-amm-v3"
+    ],
+    "rewardTokens": [],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "liquidity-providing"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1,
+        "investedApyDaily": 0,
+        "investedApyWeekly": 0,
+        "volume": 39566560.300000004,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "weth",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:pancakeswap-amm-v3-port3-weth-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_8",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "f3772aba-cc33-444b-ae04-270e00b3953c",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
   },
   {
-    _id: "66c1d2e3f4a5b6c7d8e9f0aa",
-    isLastRevision: true, revision: 1, createdBy: "system", updatedBy: "system",
-    name: "Yearn USDC Vault", slug: "as:yearn-usdc-vault",
-    description: "Automated yield optimization for USDC across multiple DeFi protocols via Yearn strategies.",
-    shortDescription: "Yearn auto-compounding USDC",
-    descriptionSlides: [], color1: "#006AE3", color2: "#0054B5",
-    landing: "", docs: "", codebase: "", app: "", twitter: "", blog: "", discord: "", email: "", telegram: "",
-    contract: "", token: "asYvUSDC",
-    isDummy: false,
-    blocky: makeBlocky("yearn-usdc-vault"),
-    nativeAddress: "0x1234567890abcdef1234567890abcdef1234500a",
-    shortAddress: "0x1234...500a",
-    nonNativeAddresses: [],
-    exposureNetworks: ["ethereum-mainnet"],
-    nativeNetwork: "ethereum-mainnet",
-    standards: [], explorer: "https://etherscan.io/address/0x1234567890abcdef1234567890abcdef1234500a",
-    status: "active", symbol: "asYvUSDC",
-    chainlinkId: "", coinGeckoId: "", coinMarketCapId: "", defiLlamaId: "",
-    exponentialId: "", defiSafetyId: "", solityId: "",
-    weiPerUnit: 1e6, scale: 6,
-    addressCount: 267,
-    issuancePrice: 1.0, markPrice: 1.078,
-    issuanceSupply: 6000000, supply: 5500000, maxSupply: 60000000,
-    lockedSupply: 0, circulatingSupply: 5500000,
-    marketCap: 5929000, dilutedMarketCap: 64680000,
-    buyEnabled: true, sellEnabled: true,
-    buyTax: 0, sellTax: 0, minBuy: 1, maxBuy: 10000000, minSell: 1, maxSell: 10000000,
-    id: 10, denomination: "usdc",
-    rewardTokens: [],
-    valuable: makeValuable(1.078, 11.24, 5500000, 1e6),
-    protocols: ["yearn"],
-    types: ["yield", "aggregator"],
-    fees: { entry: 0, exit: 0, mgmt: 0.02, perf: 0.2 },
-    limits: { minDeposit: 1, minWithdrawal: 1, maxDeposit: 10000000, maxSlippage: 0.005 },
-    scoring: makeScoring(8.0, 8.5, 8.0, 8.0),
-    deDotFiInfo: null, coinGeckoInfo: null, exponentialInfo: null, contracts: {},
-    createdAt: now, updatedAt: now,
+    "name": "PancakeSwap V3 LAWAS-USDC",
+    "slug": "as:pancakeswap-amm-v3-lawas-usdc-base",
+    "symbol": "asLAWAS-US",
+    "description": "PancakeSwap V3 LAWAS-USDC strategy on Base",
+    "shortDescription": "PancakeSwap V3 yield on Base",
+    "nativeAddress": "0x00000000000000000000000000000000000003f1",
+    "nativeNetwork": "base-mainnet",
+    "denomination": "usdc",
+    "decimals": 6,
+    "scale": 6,
+    "weiPerUnit": 1000000,
+    "id": 8453009,
+    "apy": 0,
+    "tvl": 313243809,
+    "protocols": [
+      "pancakeswap-amm-v3"
+    ],
+    "rewardTokens": [],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "base-mainnet"
+    ],
+    "types": [
+      "liquidity-providing"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1,
+        "investedApyDaily": 0,
+        "investedApyWeekly": 0,
+        "volume": 31324380.900000002,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "usdc",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:pancakeswap-amm-v3-lawas-usdc-base",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_9",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x2105",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "299a7734-2a62-4af4-80a2-e3d1b89c4c65",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
   },
   {
-    _id: "66c1d2e3f4a5b6c7d8e9f0ab",
-    isLastRevision: true, revision: 1, createdBy: "system", updatedBy: "system",
-    name: "Balancer wstETH/ETH", slug: "as:balancer-wsteth-eth",
-    description: "Provide wstETH/ETH liquidity on Balancer weighted pools for trading fees and BAL rewards.",
-    shortDescription: "Balancer wstETH/ETH LP",
-    descriptionSlides: [], color1: "#1E1E1E", color2: "#4C4C4C",
-    landing: "", docs: "", codebase: "", app: "", twitter: "", blog: "", discord: "", email: "", telegram: "",
-    contract: "", token: "asBalWstETH",
-    isDummy: false,
-    blocky: makeBlocky("balancer-wsteth-eth"),
-    nativeAddress: "0x1234567890abcdef1234567890abcdef1234500b",
-    shortAddress: "0x1234...500b",
-    nonNativeAddresses: [],
-    exposureNetworks: ["ethereum-mainnet"],
-    nativeNetwork: "ethereum-mainnet",
-    standards: [], explorer: "https://etherscan.io/address/0x1234567890abcdef1234567890abcdef1234500b",
-    status: "active", symbol: "asBalWstETH",
-    chainlinkId: "", coinGeckoId: "", coinMarketCapId: "", defiLlamaId: "",
-    exponentialId: "", defiSafetyId: "", solityId: "",
-    weiPerUnit: 1e18, scale: 18,
-    addressCount: 76,
-    issuancePrice: 1.0, markPrice: 1.045,
-    issuanceSupply: 3000, supply: 2700, maxSupply: 100000,
-    lockedSupply: 0, circulatingSupply: 2700,
-    marketCap: 8100000, dilutedMarketCap: 300000000,
-    buyEnabled: true, sellEnabled: true,
-    buyTax: 0, sellTax: 0, minBuy: 0.01, maxBuy: 10000, minSell: 0.01, maxSell: 10000,
-    id: 11, denomination: "weth",
-    rewardTokens: ["bal"],
-    valuable: makeValuable(1.045, 5.63, 2700, 1e18),
-    protocols: ["balancer"],
-    types: ["dex", "amm"],
-    fees: { entry: 0, exit: 0, mgmt: 0.002, perf: 0.15 },
-    limits: { minDeposit: 0.01, minWithdrawal: 0.01, maxDeposit: 10000, maxSlippage: 0.01 },
-    scoring: makeScoring(8.0, 7.5, 7.5, 7.5),
-    deDotFiInfo: null, coinGeckoInfo: null, exponentialInfo: null, contracts: {},
-    createdAt: now, updatedAt: now,
+    "name": "Compound V3 WBTC",
+    "slug": "as:compound-v3-wbtc-ethereum",
+    "symbol": "asWBTC",
+    "description": "Compound V3 WBTC strategy on Ethereum",
+    "shortDescription": "Compound V3 yield on Ethereum",
+    "nativeAddress": "0x00000000000000000000000000000000000003f2",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "wbtc",
+    "decimals": 8,
+    "scale": 8,
+    "weiPerUnit": 100000000,
+    "id": 1010,
+    "apy": 0,
+    "tvl": 298529836,
+    "protocols": [
+      "compound-v3"
+    ],
+    "rewardTokens": [],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "lending"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1,
+        "investedApyDaily": 0,
+        "investedApyWeekly": 0,
+        "volume": 29852983.6,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "wbtc",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:compound-v3-wbtc-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_10",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "c1ca08e4-d618-415e-ad63-fcec58705469",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
   },
   {
-    _id: "66c1d2e3f4a5b6c7d8e9f0ac",
-    isLastRevision: true, revision: 1, createdBy: "system", updatedBy: "system",
-    name: "Stargate USDC Bridge LP", slug: "as:stargate-usdc-bridge",
-    description: "Provide USDC liquidity to Stargate bridge pools and earn STG rewards from cross-chain transfers.",
-    shortDescription: "Stargate cross-chain USDC LP",
-    descriptionSlides: [], color1: "#FFFFFF", color2: "#000000",
-    landing: "", docs: "", codebase: "", app: "", twitter: "", blog: "", discord: "", email: "", telegram: "",
-    contract: "", token: "asStgUSDC",
-    isDummy: false,
-    blocky: makeBlocky("stargate-usdc-bridge"),
-    nativeAddress: "0x1234567890abcdef1234567890abcdef1234500c",
-    shortAddress: "0x1234...500c",
-    nonNativeAddresses: [],
-    exposureNetworks: ["ethereum-mainnet", "arbitrum-mainnet-one"],
-    nativeNetwork: "ethereum-mainnet",
-    standards: [], explorer: "https://etherscan.io/address/0x1234567890abcdef1234567890abcdef1234500c",
-    status: "active", symbol: "asStgUSDC",
-    chainlinkId: "", coinGeckoId: "", coinMarketCapId: "", defiLlamaId: "",
-    exponentialId: "", defiSafetyId: "", solityId: "",
-    weiPerUnit: 1e6, scale: 6,
-    addressCount: 145,
-    issuancePrice: 1.0, markPrice: 1.032,
-    issuanceSupply: 5000000, supply: 4200000, maxSupply: 50000000,
-    lockedSupply: 0, circulatingSupply: 4200000,
-    marketCap: 4334400, dilutedMarketCap: 51600000,
-    buyEnabled: true, sellEnabled: true,
-    buyTax: 0, sellTax: 0, minBuy: 1, maxBuy: 10000000, minSell: 1, maxSell: 10000000,
-    id: 12, denomination: "usdc",
-    rewardTokens: ["stg"],
-    valuable: makeValuable(1.032, 4.25, 4200000, 1e6),
-    protocols: ["stargate"],
-    types: ["bridge", "liquidity"],
-    fees: { entry: 0, exit: 0, mgmt: 0.002, perf: 0.1 },
-    limits: { minDeposit: 10, minWithdrawal: 10, maxDeposit: 10000000, maxSlippage: 0.005 },
-    scoring: makeScoring(7.5, 7.0, 8.0, 7.5),
-    deDotFiInfo: null, coinGeckoInfo: null, exponentialInfo: null, contracts: {},
-    createdAt: now, updatedAt: now,
+    "name": "Curve CRVUSD-CBBTC",
+    "slug": "as:curve-dex-crvusd-cbbtc-ethereum",
+    "symbol": "asCRVUSD-C",
+    "description": "Curve CRVUSD-CBBTC strategy on Ethereum",
+    "shortDescription": "Curve yield on Ethereum",
+    "nativeAddress": "0x00000000000000000000000000000000000003f3",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "wbtc",
+    "decimals": 8,
+    "scale": 8,
+    "weiPerUnit": 100000000,
+    "id": 1011,
+    "apy": 0.14,
+    "tvl": 182231507,
+    "protocols": [
+      "curve-dex"
+    ],
+    "rewardTokens": [],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "liquidity-providing"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1.0007,
+        "investedApyDaily": 0.14,
+        "investedApyWeekly": 0.9800000000000001,
+        "volume": 18223150.7,
+        "ror": 0.0007000000000000001,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "wbtc",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:curve-dex-crvusd-cbbtc-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_11",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "f8971721-005b-4a8f-b743-584a30d362a9",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
   },
   {
-    _id: "66c1d2e3f4a5b6c7d8e9f0ad",
-    isLastRevision: true, revision: 1, createdBy: "system", updatedBy: "system",
-    name: "Aave ETH Optimism", slug: "as:aave-eth-optimism",
-    description: "Lend ETH on Aave V3 Optimism with low gas costs and OP incentives.",
-    shortDescription: "ETH lending on Aave V3 Optimism",
-    descriptionSlides: [], color1: "#FF0420", color2: "#B6509E",
-    landing: "", docs: "", codebase: "", app: "", twitter: "", blog: "", discord: "", email: "", telegram: "",
-    contract: "", token: "asOpETH",
-    isDummy: false,
-    blocky: makeBlocky("aave-eth-optimism"),
-    nativeAddress: "0x4234567890abcdef1234567890abcdef1234500d",
-    shortAddress: "0x4234...500d",
-    nonNativeAddresses: [],
-    exposureNetworks: ["optimism-mainnet"],
-    nativeNetwork: "optimism-mainnet",
-    standards: [], explorer: "https://optimistic.etherscan.io/address/0x4234567890abcdef1234567890abcdef1234500d",
-    status: "active", symbol: "asOpETH",
-    chainlinkId: "", coinGeckoId: "", coinMarketCapId: "", defiLlamaId: "",
-    exponentialId: "", defiSafetyId: "", solityId: "",
-    weiPerUnit: 1e18, scale: 18,
-    addressCount: 203,
-    issuancePrice: 1.0, markPrice: 1.028,
-    issuanceSupply: 2000, supply: 1850, maxSupply: 100000,
-    lockedSupply: 0, circulatingSupply: 1850,
-    marketCap: 5550000, dilutedMarketCap: 300000000,
-    buyEnabled: true, sellEnabled: true,
-    buyTax: 0, sellTax: 0, minBuy: 0.01, maxBuy: 50000, minSell: 0.01, maxSell: 50000,
-    id: 13, denomination: "weth",
-    rewardTokens: ["op"],
-    valuable: makeValuable(1.028, 4.15, 1850, 1e18),
-    protocols: ["aave"],
-    types: ["lending"],
-    fees: { entry: 0, exit: 0, mgmt: 0.002, perf: 0.1 },
-    limits: { minDeposit: 0.01, minWithdrawal: 0.01, maxDeposit: 50000, maxSlippage: 0.005 },
-    scoring: makeScoring(9.0, 7.0, 8.5, 8.5),
-    deDotFiInfo: null, coinGeckoInfo: null, exponentialInfo: null, contracts: {},
-    createdAt: now, updatedAt: now,
+    "name": "Curve DAI-USDC-USDT",
+    "slug": "as:curve-dex-dai-usdc-usdt-ethereum",
+    "symbol": "asDAI-USDC",
+    "description": "Curve DAI-USDC-USDT strategy on Ethereum",
+    "shortDescription": "Curve yield on Ethereum",
+    "nativeAddress": "0x00000000000000000000000000000000000003f4",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "dai",
+    "decimals": 18,
+    "scale": 18,
+    "weiPerUnit": 1000000000000000000,
+    "id": 1012,
+    "apy": 0,
+    "tvl": 163003096,
+    "protocols": [
+      "curve-dex"
+    ],
+    "rewardTokens": [
+      "0xD533a949740bb3306d119CC777fa900bA034cd52"
+    ],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "liquidity-providing"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1.0000002,
+        "investedApyDaily": 0.00004,
+        "investedApyWeekly": 0.00028000000000000003,
+        "volume": 16300309.600000001,
+        "ror": 2.0000000000000002e-7,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "dai",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:curve-dex-dai-usdc-usdt-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_12",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "25171c4c-1877-449a-9f88-45a9f153ee31",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
   },
   {
-    _id: "66c1d2e3f4a5b6c7d8e9f0ae",
-    isLastRevision: true, revision: 1, createdBy: "system", updatedBy: "system",
-    name: "Compound USDC Base", slug: "as:compound-usdc-base",
-    description: "Supply USDC on Compound V3 Base for yield with minimal gas costs.",
-    shortDescription: "USDC lending on Compound V3 Base",
-    descriptionSlides: [], color1: "#0052FF", color2: "#00D395",
-    landing: "", docs: "", codebase: "", app: "", twitter: "", blog: "", discord: "", email: "", telegram: "",
-    contract: "", token: "asBaseUSDC",
-    isDummy: false,
-    blocky: makeBlocky("compound-usdc-base"),
-    nativeAddress: "0x5234567890abcdef1234567890abcdef1234500e",
-    shortAddress: "0x5234...500e",
-    nonNativeAddresses: [],
-    exposureNetworks: ["base-mainnet"],
-    nativeNetwork: "base-mainnet",
-    standards: [], explorer: "https://basescan.org/address/0x5234567890abcdef1234567890abcdef1234500e",
-    status: "active", symbol: "asBaseUSDC",
-    chainlinkId: "", coinGeckoId: "", coinMarketCapId: "", defiLlamaId: "",
-    exponentialId: "", defiSafetyId: "", solityId: "",
-    weiPerUnit: 1e6, scale: 6,
-    addressCount: 189,
-    issuancePrice: 1.0, markPrice: 1.041,
-    issuanceSupply: 3000000, supply: 2800000, maxSupply: 30000000,
-    lockedSupply: 0, circulatingSupply: 2800000,
-    marketCap: 2914800, dilutedMarketCap: 31230000,
-    buyEnabled: true, sellEnabled: true,
-    buyTax: 0, sellTax: 0, minBuy: 1, maxBuy: 10000000, minSell: 1, maxSell: 10000000,
-    id: 14, denomination: "usdc",
-    rewardTokens: ["comp"],
-    valuable: makeValuable(1.041, 5.85, 2800000, 1e6),
-    protocols: ["compound"],
-    types: ["lending"],
-    fees: { entry: 0, exit: 0, mgmt: 0.002, perf: 0.1 },
-    limits: { minDeposit: 1, minWithdrawal: 1, maxDeposit: 10000000, maxSlippage: 0.005 },
-    scoring: makeScoring(8.5, 7.5, 8.5, 8.5),
-    deDotFiInfo: null, coinGeckoInfo: null, exponentialInfo: null, contracts: {},
-    createdAt: now, updatedAt: now,
+    "name": "PancakeSwap V3 PORT3-USDT",
+    "slug": "as:pancakeswap-amm-v3-port3-usdt-ethereum",
+    "symbol": "asPORT3-US",
+    "description": "PancakeSwap V3 PORT3-USDT strategy on Ethereum",
+    "shortDescription": "PancakeSwap V3 yield on Ethereum",
+    "nativeAddress": "0x00000000000000000000000000000000000003f5",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "usdt",
+    "decimals": 6,
+    "scale": 6,
+    "weiPerUnit": 1000000,
+    "id": 1013,
+    "apy": 0,
+    "tvl": 153553496,
+    "protocols": [
+      "pancakeswap-amm-v3"
+    ],
+    "rewardTokens": [],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "liquidity-providing"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1,
+        "investedApyDaily": 0,
+        "investedApyWeekly": 0,
+        "volume": 15355349.600000001,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "usdt",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:pancakeswap-amm-v3-port3-usdt-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_13",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "a1049a10-1ad1-48c9-befd-9977bca00178",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
   },
   {
-    _id: "66c1d2e3f4a5b6c7d8e9f0af",
-    isLastRevision: true, revision: 1, createdBy: "system", updatedBy: "system",
-    name: "Curve Avalanche USDC/USDT", slug: "as:curve-avax-usdc-usdt",
-    description: "Provide USDC/USDT liquidity on Curve Avalanche for stable trading fees.",
-    shortDescription: "Curve stable LP on Avalanche",
-    descriptionSlides: [], color1: "#E84142", color2: "#FF6B6B",
-    landing: "", docs: "", codebase: "", app: "", twitter: "", blog: "", discord: "", email: "", telegram: "",
-    contract: "", token: "asAvaxCurve",
-    isDummy: false,
-    blocky: makeBlocky("curve-avax-usdc-usdt"),
-    nativeAddress: "0x6234567890abcdef1234567890abcdef1234500f",
-    shortAddress: "0x6234...500f",
-    nonNativeAddresses: [],
-    exposureNetworks: ["avalanche-mainnet"],
-    nativeNetwork: "avalanche-mainnet",
-    standards: [], explorer: "https://snowtrace.io/address/0x6234567890abcdef1234567890abcdef1234500f",
-    status: "active", symbol: "asAvaxCurve",
-    chainlinkId: "", coinGeckoId: "", coinMarketCapId: "", defiLlamaId: "",
-    exponentialId: "", defiSafetyId: "", solityId: "",
-    weiPerUnit: 1e18, scale: 18,
-    addressCount: 98,
-    issuancePrice: 1.0, markPrice: 1.052,
-    issuanceSupply: 2000000, supply: 1750000, maxSupply: 20000000,
-    lockedSupply: 0, circulatingSupply: 1750000,
-    marketCap: 1841000, dilutedMarketCap: 21040000,
-    buyEnabled: true, sellEnabled: true,
-    buyTax: 0, sellTax: 0, minBuy: 1, maxBuy: 5000000, minSell: 1, maxSell: 5000000,
-    id: 15, denomination: "usdc",
-    rewardTokens: ["crv"],
-    valuable: makeValuable(1.052, 7.92, 1750000, 1e18),
-    protocols: ["curve"],
-    types: ["dex", "amm"],
-    fees: { entry: 0, exit: 0, mgmt: 0.002, perf: 0.15 },
-    limits: { minDeposit: 1, minWithdrawal: 1, maxDeposit: 5000000, maxSlippage: 0.005 },
-    scoring: makeScoring(8.5, 8.0, 7.5, 7.5),
-    deDotFiInfo: null, coinGeckoInfo: null, exponentialInfo: null, contracts: {},
-    createdAt: now, updatedAt: now,
+    "name": "Compound V3 USDC",
+    "slug": "as:compound-v3-usdc-ethereum",
+    "symbol": "asUSDC",
+    "description": "Compound V3 USDC strategy on Ethereum",
+    "shortDescription": "Compound V3 yield on Ethereum",
+    "nativeAddress": "0x00000000000000000000000000000000000003f6",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "usdc",
+    "decimals": 6,
+    "scale": 6,
+    "weiPerUnit": 1000000,
+    "id": 1014,
+    "apy": 2.42,
+    "tvl": 145475502,
+    "protocols": [
+      "compound-v3"
+    ],
+    "rewardTokens": [
+      "0xc00e94Cb662C3520282E6f5717214004A7f26888"
+    ],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "lending"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1.01212425,
+        "investedApyDaily": 2.42485,
+        "investedApyWeekly": 16.973950000000002,
+        "volume": 14547550.200000001,
+        "ror": 0.012124250000000001,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "usdc",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:compound-v3-usdc-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_14",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "7da72d09-56ca-4ec5-a45f-59114353e487",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
   },
+  {
+    "name": "Compound V3 WETH",
+    "slug": "as:compound-v3-weth-ethereum",
+    "symbol": "asWETH",
+    "description": "Compound V3 WETH strategy on Ethereum",
+    "shortDescription": "Compound V3 yield on Ethereum",
+    "nativeAddress": "0x00000000000000000000000000000000000003f7",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "weth",
+    "decimals": 18,
+    "scale": 18,
+    "weiPerUnit": 1000000000000000000,
+    "id": 1015,
+    "apy": 0,
+    "tvl": 118556448,
+    "protocols": [
+      "compound-v3"
+    ],
+    "rewardTokens": [],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "lending"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1,
+        "investedApyDaily": 0,
+        "investedApyWeekly": 0,
+        "volume": 11855644.8,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "weth",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:compound-v3-weth-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_15",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "072f6554-daa7-4708-80ba-371b896a89db",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
+  },
+  {
+    "name": "PancakeSwap V3 WBTC-PORT3",
+    "slug": "as:pancakeswap-amm-v3-wbtc-port3-ethereum",
+    "symbol": "asWBTC-POR",
+    "description": "PancakeSwap V3 WBTC-PORT3 strategy on Ethereum",
+    "shortDescription": "PancakeSwap V3 yield on Ethereum",
+    "nativeAddress": "0x00000000000000000000000000000000000003f8",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "wbtc",
+    "decimals": 8,
+    "scale": 8,
+    "weiPerUnit": 100000000,
+    "id": 1016,
+    "apy": 0,
+    "tvl": 102368997,
+    "protocols": [
+      "pancakeswap-amm-v3"
+    ],
+    "rewardTokens": [],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "liquidity-providing"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1,
+        "investedApyDaily": 0,
+        "investedApyWeekly": 0,
+        "volume": 10236899.700000001,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "wbtc",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:pancakeswap-amm-v3-wbtc-port3-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_16",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "f788b781-6c40-4fe1-922a-126a160710d2",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
+  },
+  {
+    "name": "Curve PYUSD-USDS",
+    "slug": "as:curve-dex-pyusd-usds-ethereum",
+    "symbol": "asPYUSD-US",
+    "description": "Curve PYUSD-USDS strategy on Ethereum",
+    "shortDescription": "Curve yield on Ethereum",
+    "nativeAddress": "0x00000000000000000000000000000000000003f9",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "usdc",
+    "decimals": 6,
+    "scale": 6,
+    "weiPerUnit": 1000000,
+    "id": 1017,
+    "apy": 0.01,
+    "tvl": 99999678,
+    "protocols": [
+      "curve-dex"
+    ],
+    "rewardTokens": [
+      "0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84"
+    ],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "liquidity-providing"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1.00005,
+        "investedApyDaily": 0.01,
+        "investedApyWeekly": 0.07,
+        "volume": 9999967.8,
+        "ror": 0.00005,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "usdc",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:curve-dex-pyusd-usds-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_17",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "66bbe7c0-f052-4d63-9d0f-2a47e283d3cd",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
+  },
+  {
+    "name": "Uniswap V3 USDC-WETH",
+    "slug": "as:uniswap-v3-usdc-weth-ethereum",
+    "symbol": "asUSDC-WET",
+    "description": "Uniswap V3 USDC-WETH strategy on Ethereum",
+    "shortDescription": "Uniswap V3 yield on Ethereum",
+    "nativeAddress": "0x00000000000000000000000000000000000003fa",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "usdc",
+    "decimals": 6,
+    "scale": 6,
+    "weiPerUnit": 1000000,
+    "id": 1018,
+    "apy": 16.31,
+    "tvl": 96573951,
+    "protocols": [
+      "uniswap-v3"
+    ],
+    "rewardTokens": [],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "liquidity-providing"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1.0815348,
+        "investedApyDaily": 16.30696,
+        "investedApyWeekly": 114.14872,
+        "volume": 9657395.1,
+        "ror": 0.0815348,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "usdc",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:uniswap-v3-usdc-weth-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_18",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "665dc8bc-c79d-4800-97f7-304bf368e547",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
+  },
+  {
+    "name": "Compound V3 WBTC",
+    "slug": "as:compound-v3-wbtc-ethereum",
+    "symbol": "asWBTC",
+    "description": "Compound V3 WBTC strategy on Ethereum",
+    "shortDescription": "Compound V3 yield on Ethereum",
+    "nativeAddress": "0x00000000000000000000000000000000000003fb",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "wbtc",
+    "decimals": 8,
+    "scale": 8,
+    "weiPerUnit": 100000000,
+    "id": 1019,
+    "apy": 0,
+    "tvl": 93505401,
+    "protocols": [
+      "compound-v3"
+    ],
+    "rewardTokens": [],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "lending"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1,
+        "investedApyDaily": 0,
+        "investedApyWeekly": 0,
+        "volume": 9350540.1,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "wbtc",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:compound-v3-wbtc-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_19",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "0827aa12-5831-47f0-b5ba-549294a2032b",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
+  },
+  {
+    "name": "Curve CRVUSD-TBTC",
+    "slug": "as:curve-dex-crvusd-tbtc-ethereum",
+    "symbol": "asCRVUSD-T",
+    "description": "Curve CRVUSD-TBTC strategy on Ethereum",
+    "shortDescription": "Curve yield on Ethereum",
+    "nativeAddress": "0x00000000000000000000000000000000000003fc",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "wbtc",
+    "decimals": 8,
+    "scale": 8,
+    "weiPerUnit": 100000000,
+    "id": 1020,
+    "apy": 0.12,
+    "tvl": 93223629,
+    "protocols": [
+      "curve-dex"
+    ],
+    "rewardTokens": [],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "liquidity-providing"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1.0006,
+        "investedApyDaily": 0.12,
+        "investedApyWeekly": 0.84,
+        "volume": 9322362.9,
+        "ror": 0.0006,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "wbtc",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:curve-dex-crvusd-tbtc-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_20",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "0208091c-ac2f-4918-9807-82c721142905",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
+  },
+  {
+    "name": "Uniswap V3 WETH-USDC",
+    "slug": "as:uniswap-v3-weth-usdc-base",
+    "symbol": "asWETH-USD",
+    "description": "Uniswap V3 WETH-USDC strategy on Base",
+    "shortDescription": "Uniswap V3 yield on Base",
+    "nativeAddress": "0x00000000000000000000000000000000000003fd",
+    "nativeNetwork": "base-mainnet",
+    "denomination": "weth",
+    "decimals": 18,
+    "scale": 18,
+    "weiPerUnit": 1000000000000000000,
+    "id": 8453021,
+    "apy": 42.22,
+    "tvl": 85717032,
+    "protocols": [
+      "uniswap-v3"
+    ],
+    "rewardTokens": [],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "base-mainnet"
+    ],
+    "types": [
+      "liquidity-providing"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1.21109915,
+        "investedApyDaily": 42.21983,
+        "investedApyWeekly": 295.53881,
+        "volume": 8571703.200000001,
+        "ror": 0.21109915,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "weth",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:uniswap-v3-weth-usdc-base",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_21",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x2105",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "b99bcdf5-1350-4269-981e-0e9b5cccb007",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
+  },
+  {
+    "name": "Compound V3 WSTETH",
+    "slug": "as:compound-v3-wsteth-ethereum",
+    "symbol": "asWSTETH",
+    "description": "Compound V3 WSTETH strategy on Ethereum",
+    "shortDescription": "Compound V3 yield on Ethereum",
+    "nativeAddress": "0x00000000000000000000000000000000000003fe",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "weth",
+    "decimals": 18,
+    "scale": 18,
+    "weiPerUnit": 1000000000000000000,
+    "id": 1022,
+    "apy": 0,
+    "tvl": 83630892,
+    "protocols": [
+      "compound-v3"
+    ],
+    "rewardTokens": [],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "lending"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1,
+        "investedApyDaily": 0,
+        "investedApyWeekly": 0,
+        "volume": 8363089.2,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "weth",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:compound-v3-wsteth-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_22",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "007d03bd-4987-4b3b-b7d2-2f3af42fa4b4",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
+  },
+  {
+    "name": "PancakeSwap V3 CAKE-PORT3",
+    "slug": "as:pancakeswap-amm-v3-cake-port3-ethereum",
+    "symbol": "asCAKE-POR",
+    "description": "PancakeSwap V3 CAKE-PORT3 strategy on Ethereum",
+    "shortDescription": "PancakeSwap V3 yield on Ethereum",
+    "nativeAddress": "0x00000000000000000000000000000000000003ff",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "usdc",
+    "decimals": 6,
+    "scale": 6,
+    "weiPerUnit": 1000000,
+    "id": 1023,
+    "apy": 0,
+    "tvl": 76776748,
+    "protocols": [
+      "pancakeswap-amm-v3"
+    ],
+    "rewardTokens": [],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "liquidity-providing"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1,
+        "investedApyDaily": 0,
+        "investedApyWeekly": 0,
+        "volume": 7677674.800000001,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "usdc",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:pancakeswap-amm-v3-cake-port3-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_23",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "879f9e0a-704c-45e7-af8b-b102345bca29",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
+  },
+  {
+    "name": "Convex FRAX-USDE",
+    "slug": "as:convex-finance-frax-usde-ethereum",
+    "symbol": "asFRAX-USD",
+    "description": "Convex FRAX-USDE strategy on Ethereum",
+    "shortDescription": "Convex yield on Ethereum",
+    "nativeAddress": "0x0000000000000000000000000000000000000400",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "usdc",
+    "decimals": 6,
+    "scale": 6,
+    "weiPerUnit": 1000000,
+    "id": 1024,
+    "apy": 1.35,
+    "tvl": 74795697,
+    "protocols": [
+      "convex-finance"
+    ],
+    "rewardTokens": [
+      "0xd533a949740bb3306d119cc777fa900ba034cd52",
+      "0x4e3fbd56cd56c3e72c1403e103b45db9da5b9d2b"
+    ],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "lending"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1.006733,
+        "investedApyDaily": 1.3466,
+        "investedApyWeekly": 9.4262,
+        "volume": 7479569.7,
+        "ror": 0.006733,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "usdc",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:convex-finance-frax-usde-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_24",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "5fac4a47-5360-49b7-8b61-66f88a3d939f",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
+  },
+  {
+    "name": "Uniswap V3 WETH-USDT",
+    "slug": "as:uniswap-v3-weth-usdt-ethereum",
+    "symbol": "asWETH-USD",
+    "description": "Uniswap V3 WETH-USDT strategy on Ethereum",
+    "shortDescription": "Uniswap V3 yield on Ethereum",
+    "nativeAddress": "0x0000000000000000000000000000000000000401",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "weth",
+    "decimals": 18,
+    "scale": 18,
+    "weiPerUnit": 1000000000000000000,
+    "id": 1025,
+    "apy": 13.86,
+    "tvl": 65071024,
+    "protocols": [
+      "uniswap-v3"
+    ],
+    "rewardTokens": [],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "liquidity-providing"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1.069297,
+        "investedApyDaily": 13.8594,
+        "investedApyWeekly": 97.01580000000001,
+        "volume": 6507102.4,
+        "ror": 0.069297,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "weth",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:uniswap-v3-weth-usdt-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_25",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "fc9f488e-8183-416f-a61e-4e5c571d4395",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
+  },
+  {
+    "name": "Uniswap V3 WBTC-WETH",
+    "slug": "as:uniswap-v3-wbtc-weth-arbitrum",
+    "symbol": "asWBTC-WET",
+    "description": "Uniswap V3 WBTC-WETH strategy on Arbitrum",
+    "shortDescription": "Uniswap V3 yield on Arbitrum",
+    "nativeAddress": "0x0000000000000000000000000000000000000402",
+    "nativeNetwork": "arbitrum-mainnet-one",
+    "denomination": "wbtc",
+    "decimals": 8,
+    "scale": 8,
+    "weiPerUnit": 100000000,
+    "id": 42161026,
+    "apy": 9.54,
+    "tvl": 58860471,
+    "protocols": [
+      "uniswap-v3"
+    ],
+    "rewardTokens": [],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "arbitrum-mainnet-one"
+    ],
+    "types": [
+      "liquidity-providing"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1.04771695,
+        "investedApyDaily": 9.54339,
+        "investedApyWeekly": 66.80373,
+        "volume": 5886047.100000001,
+        "ror": 0.04771695,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "wbtc",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:uniswap-v3-wbtc-weth-arbitrum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_26",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0xa4b1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "bb7e9353-129f-4e01-b822-f4250d0abb8a",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
+  },
+  {
+    "name": "Convex DOLA-SUSDE",
+    "slug": "as:convex-finance-dola-susde-ethereum",
+    "symbol": "asDOLA-SUS",
+    "description": "Convex DOLA-SUSDE strategy on Ethereum",
+    "shortDescription": "Convex yield on Ethereum",
+    "nativeAddress": "0x0000000000000000000000000000000000000403",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "usdc",
+    "decimals": 6,
+    "scale": 6,
+    "weiPerUnit": 1000000,
+    "id": 1027,
+    "apy": 1.12,
+    "tvl": 54598839,
+    "protocols": [
+      "convex-finance"
+    ],
+    "rewardTokens": [
+      "0xd533a949740bb3306d119cc777fa900ba034cd52",
+      "0x4e3fbd56cd56c3e72c1403e103b45db9da5b9d2b",
+      "0xA153B9dFE150098cFeAfb9288f3657D09fC39663"
+    ],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "lending"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1.0055869,
+        "investedApyDaily": 1.11738,
+        "investedApyWeekly": 7.8216600000000005,
+        "volume": 5459883.9,
+        "ror": 0.0055869000000000005,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "usdc",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:convex-finance-dola-susde-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_27",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "85407c01-6f16-4cef-9ef2-1b2bf2556183",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
+  },
+  {
+    "name": "Uniswap V3 WETH-USDC",
+    "slug": "as:uniswap-v3-weth-usdc-arbitrum",
+    "symbol": "asWETH-USD",
+    "description": "Uniswap V3 WETH-USDC strategy on Arbitrum",
+    "shortDescription": "Uniswap V3 yield on Arbitrum",
+    "nativeAddress": "0x0000000000000000000000000000000000000404",
+    "nativeNetwork": "arbitrum-mainnet-one",
+    "denomination": "weth",
+    "decimals": 18,
+    "scale": 18,
+    "weiPerUnit": 1000000000000000000,
+    "id": 42161028,
+    "apy": 14.79,
+    "tvl": 51994280,
+    "protocols": [
+      "uniswap-v3"
+    ],
+    "rewardTokens": [],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "arbitrum-mainnet-one"
+    ],
+    "types": [
+      "liquidity-providing"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1.07397165,
+        "investedApyDaily": 14.79433,
+        "investedApyWeekly": 103.56031,
+        "volume": 5199428,
+        "ror": 0.07397165,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "weth",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:uniswap-v3-weth-usdc-arbitrum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_28",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0xa4b1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "a14bd201-764c-40a5-86b8-2928b2461232",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
+  },
+  {
+    "name": "Convex ETH-STETH",
+    "slug": "as:convex-finance-eth-steth-ethereum",
+    "symbol": "asETH-STET",
+    "description": "Convex ETH-STETH strategy on Ethereum",
+    "shortDescription": "Convex yield on Ethereum",
+    "nativeAddress": "0x0000000000000000000000000000000000000405",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "weth",
+    "decimals": 18,
+    "scale": 18,
+    "weiPerUnit": 1000000000000000000,
+    "id": 1029,
+    "apy": 1.88,
+    "tvl": 50334609,
+    "protocols": [
+      "convex-finance"
+    ],
+    "rewardTokens": [
+      "0xd533a949740bb3306d119cc777fa900ba034cd52",
+      "0x4e3fbd56cd56c3e72c1403e103b45db9da5b9d2b",
+      "0x5A98FcBEA516Cf06857215779Fd812CA3beF1B32",
+      "0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0"
+    ],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "lending"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1.0094071,
+        "investedApyDaily": 1.88142,
+        "investedApyWeekly": 13.16994,
+        "volume": 5033460.9,
+        "ror": 0.0094071,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "weth",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:convex-finance-eth-steth-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_29",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "5ce23e7e-3800-4c9c-ad30-6db3db0515a1",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
+  },
+  {
+    "name": "Pendle SNUSD",
+    "slug": "as:pendle-snusd-ethereum",
+    "symbol": "asSNUSD",
+    "description": "Pendle SNUSD strategy on Ethereum",
+    "shortDescription": "Pendle yield on Ethereum",
+    "nativeAddress": "0x0000000000000000000000000000000000000406",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "usdc",
+    "decimals": 6,
+    "scale": 6,
+    "weiPerUnit": 1000000,
+    "id": 1030,
+    "apy": 7.51,
+    "tvl": 45480834,
+    "protocols": [
+      "pendle"
+    ],
+    "rewardTokens": [],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "lending"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1.0375583,
+        "investedApyDaily": 7.51166,
+        "investedApyWeekly": 52.58162,
+        "volume": 4548083.4,
+        "ror": 0.0375583,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "usdc",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:pendle-snusd-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_30",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "0f38d9a4-8e34-4abc-b9ba-25f326ef7828",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
+  },
+  {
+    "name": "Pendle SNUSD",
+    "slug": "as:pendle-snusd-ethereum",
+    "symbol": "asSNUSD",
+    "description": "Pendle SNUSD strategy on Ethereum",
+    "shortDescription": "Pendle yield on Ethereum",
+    "nativeAddress": "0x0000000000000000000000000000000000000407",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "usdc",
+    "decimals": 6,
+    "scale": 6,
+    "weiPerUnit": 1000000,
+    "id": 1031,
+    "apy": 9.64,
+    "tvl": 45480834,
+    "protocols": [
+      "pendle"
+    ],
+    "rewardTokens": [
+      "0x808507121b80c02388fad14726482e061b8da827"
+    ],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "lending"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1.04822355,
+        "investedApyDaily": 9.64471,
+        "investedApyWeekly": 67.51297,
+        "volume": 4548083.4,
+        "ror": 0.04822355,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "usdc",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:pendle-snusd-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_31",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "a064d3a0-e0b0-42c2-8992-1358c950bc6d",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
+  },
+  {
+    "name": "Convex CVXCRV",
+    "slug": "as:convex-finance-cvxcrv-ethereum",
+    "symbol": "asCVXCRV",
+    "description": "Convex CVXCRV strategy on Ethereum",
+    "shortDescription": "Convex yield on Ethereum",
+    "nativeAddress": "0x0000000000000000000000000000000000000408",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "usdc",
+    "decimals": 6,
+    "scale": 6,
+    "weiPerUnit": 1000000,
+    "id": 1032,
+    "apy": 10.8,
+    "tvl": 37182402,
+    "protocols": [
+      "convex-finance"
+    ],
+    "rewardTokens": [
+      "0xd533a949740bb3306d119cc777fa900ba034cd52",
+      "0x4e3fbd56cd56c3e72c1403e103b45db9da5b9d2b",
+      "0xf939e0a03fb07f59a73314e73794be0e57ac1b4e"
+    ],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "lending"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1.054,
+        "investedApyDaily": 10.8,
+        "investedApyWeekly": 75.60000000000001,
+        "volume": 3718240.2,
+        "ror": 0.054000000000000006,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "usdc",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:convex-finance-cvxcrv-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_32",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "ef32dd3b-a03b-4f79-9b65-8420d7e04ad0",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
+  },
+  {
+    "name": "Yearn JPEGPETH-F",
+    "slug": "as:yearn-finance-jpegpeth-f-ethereum",
+    "symbol": "asJPEGPETH",
+    "description": "Yearn JPEGPETH-F strategy on Ethereum",
+    "shortDescription": "Yearn yield on Ethereum",
+    "nativeAddress": "0x0000000000000000000000000000000000000409",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "weth",
+    "decimals": 18,
+    "scale": 18,
+    "weiPerUnit": 1000000000000000000,
+    "id": 1033,
+    "apy": 0,
+    "tvl": 35346811,
+    "protocols": [
+      "yearn-finance"
+    ],
+    "rewardTokens": [],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "lending"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1,
+        "investedApyDaily": 0,
+        "investedApyWeekly": 0,
+        "volume": 3534681.1,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "weth",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:yearn-finance-jpegpeth-f-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_33",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "fefa0f23-59db-4ff9-9649-f4b708622d53",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
+  },
+  {
+    "name": "Yearn USDC",
+    "slug": "as:yearn-finance-usdc-ethereum",
+    "symbol": "asUSDC",
+    "description": "Yearn USDC strategy on Ethereum",
+    "shortDescription": "Yearn yield on Ethereum",
+    "nativeAddress": "0x000000000000000000000000000000000000040a",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "usdc",
+    "decimals": 6,
+    "scale": 6,
+    "weiPerUnit": 1000000,
+    "id": 1034,
+    "apy": 2.36,
+    "tvl": 31787002,
+    "protocols": [
+      "yearn-finance"
+    ],
+    "rewardTokens": [],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "lending"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1.01179655,
+        "investedApyDaily": 2.35931,
+        "investedApyWeekly": 16.515169999999998,
+        "volume": 3178700.2,
+        "ror": 0.01179655,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "usdc",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:yearn-finance-usdc-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_34",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "7d89af7a-24c9-4292-aa38-7c71b05fbd6d",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
+  },
+  {
+    "name": "Pendle USDG",
+    "slug": "as:pendle-usdg-ethereum",
+    "symbol": "asUSDG",
+    "description": "Pendle USDG strategy on Ethereum",
+    "shortDescription": "Pendle yield on Ethereum",
+    "nativeAddress": "0x000000000000000000000000000000000000040b",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "usdc",
+    "decimals": 6,
+    "scale": 6,
+    "weiPerUnit": 1000000,
+    "id": 1035,
+    "apy": 5.24,
+    "tvl": 31486540,
+    "protocols": [
+      "pendle"
+    ],
+    "rewardTokens": [],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "lending"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1.0261878,
+        "investedApyDaily": 5.23756,
+        "investedApyWeekly": 36.66292,
+        "volume": 3148654,
+        "ror": 0.0261878,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "usdc",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:pendle-usdg-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_35",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "8bc218ed-faf1-41e9-a636-2989e9f7e805",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
+  },
+  {
+    "name": "Pendle USDG",
+    "slug": "as:pendle-usdg-ethereum",
+    "symbol": "asUSDG",
+    "description": "Pendle USDG strategy on Ethereum",
+    "shortDescription": "Pendle yield on Ethereum",
+    "nativeAddress": "0x000000000000000000000000000000000000040c",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "usdc",
+    "decimals": 6,
+    "scale": 6,
+    "weiPerUnit": 1000000,
+    "id": 1036,
+    "apy": 8.71,
+    "tvl": 31486540,
+    "protocols": [
+      "pendle"
+    ],
+    "rewardTokens": [
+      "0x808507121b80c02388fad14726482e061b8da827"
+    ],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "lending"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1.04354085,
+        "investedApyDaily": 8.70817,
+        "investedApyWeekly": 60.957190000000004,
+        "volume": 3148654,
+        "ror": 0.043540850000000006,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "usdc",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:pendle-usdg-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_36",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "6b7abf76-a216-4386-8e3f-873e663214ca",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
+  },
+  {
+    "name": "Balancer WSTETH-AAVE",
+    "slug": "as:balancer-v2-wsteth-aave-ethereum",
+    "symbol": "asWSTETH-A",
+    "description": "Balancer WSTETH-AAVE strategy on Ethereum",
+    "shortDescription": "Balancer yield on Ethereum",
+    "nativeAddress": "0x000000000000000000000000000000000000040d",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "weth",
+    "decimals": 18,
+    "scale": 18,
+    "weiPerUnit": 1000000000000000000,
+    "id": 1037,
+    "apy": 0.32,
+    "tvl": 25270814,
+    "protocols": [
+      "balancer-v2"
+    ],
+    "rewardTokens": [],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "lending"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1.00162005,
+        "investedApyDaily": 0.32401,
+        "investedApyWeekly": 2.2680700000000003,
+        "volume": 2527081.4000000004,
+        "ror": 0.00162005,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "weth",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:balancer-v2-wsteth-aave-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_37",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "201e5f6e-cf75-4d0e-b07f-d58da3cee23a",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
+  },
+  {
+    "name": "Pendle SUSDE",
+    "slug": "as:pendle-susde-ethereum",
+    "symbol": "asSUSDE",
+    "description": "Pendle SUSDE strategy on Ethereum",
+    "shortDescription": "Pendle yield on Ethereum",
+    "nativeAddress": "0x000000000000000000000000000000000000040e",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "usdc",
+    "decimals": 6,
+    "scale": 6,
+    "weiPerUnit": 1000000,
+    "id": 1038,
+    "apy": 3.69,
+    "tvl": 24897905,
+    "protocols": [
+      "pendle"
+    ],
+    "rewardTokens": [],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "lending"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1.01846095,
+        "investedApyDaily": 3.69219,
+        "investedApyWeekly": 25.84533,
+        "volume": 2489790.5,
+        "ror": 0.01846095,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "usdc",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:pendle-susde-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_38",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "e2fa0a1c-91bc-4653-b165-5005a8327402",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
+  },
+  {
+    "name": "Convex ETH-STETH",
+    "slug": "as:convex-finance-eth-steth-ethereum",
+    "symbol": "asETH-STET",
+    "description": "Convex ETH-STETH strategy on Ethereum",
+    "shortDescription": "Convex yield on Ethereum",
+    "nativeAddress": "0x000000000000000000000000000000000000040f",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "weth",
+    "decimals": 18,
+    "scale": 18,
+    "weiPerUnit": 1000000000000000000,
+    "id": 1039,
+    "apy": 1.55,
+    "tvl": 22997763,
+    "protocols": [
+      "convex-finance"
+    ],
+    "rewardTokens": [
+      "0xd533a949740bb3306d119cc777fa900ba034cd52",
+      "0x4e3fbd56cd56c3e72c1403e103b45db9da5b9d2b"
+    ],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "lending"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1.00774175,
+        "investedApyDaily": 1.54835,
+        "investedApyWeekly": 10.83845,
+        "volume": 2299776.3000000003,
+        "ror": 0.0077417499999999995,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "weth",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:convex-finance-eth-steth-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_39",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "e378a7c2-6285-4993-9397-87ac9c8adc15",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
+  },
+  {
+    "name": "Yearn WETH",
+    "slug": "as:yearn-finance-weth-ethereum",
+    "symbol": "asWETH",
+    "description": "Yearn WETH strategy on Ethereum",
+    "shortDescription": "Yearn yield on Ethereum",
+    "nativeAddress": "0x0000000000000000000000000000000000000410",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "weth",
+    "decimals": 18,
+    "scale": 18,
+    "weiPerUnit": 1000000000000000000,
+    "id": 1040,
+    "apy": 1.91,
+    "tvl": 22679095,
+    "protocols": [
+      "yearn-finance"
+    ],
+    "rewardTokens": [],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "lending"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1.0095434,
+        "investedApyDaily": 1.90868,
+        "investedApyWeekly": 13.360759999999999,
+        "volume": 2267909.5,
+        "ror": 0.0095434,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "weth",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:yearn-finance-weth-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_40",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "2b840e0a-2823-4972-9bfc-8b766c90374b",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
+  },
+  {
+    "name": "Yearn USDS",
+    "slug": "as:yearn-finance-usds-ethereum",
+    "symbol": "asUSDS",
+    "description": "Yearn USDS strategy on Ethereum",
+    "shortDescription": "Yearn yield on Ethereum",
+    "nativeAddress": "0x0000000000000000000000000000000000000411",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "usdc",
+    "decimals": 6,
+    "scale": 6,
+    "weiPerUnit": 1000000,
+    "id": 1041,
+    "apy": 4.77,
+    "tvl": 18258175,
+    "protocols": [
+      "yearn-finance"
+    ],
+    "rewardTokens": [],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "lending"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1.0238328,
+        "investedApyDaily": 4.76656,
+        "investedApyWeekly": 33.36592,
+        "volume": 1825817.5,
+        "ror": 0.0238328,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "usdc",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:yearn-finance-usds-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_41",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "7501ef09-87d1-405c-b2b2-f269b2727289",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
+  },
+  {
+    "name": "Yearn USDS",
+    "slug": "as:yearn-finance-usds-ethereum",
+    "symbol": "asUSDS",
+    "description": "Yearn USDS strategy on Ethereum",
+    "shortDescription": "Yearn yield on Ethereum",
+    "nativeAddress": "0x0000000000000000000000000000000000000412",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "usdc",
+    "decimals": 6,
+    "scale": 6,
+    "weiPerUnit": 1000000,
+    "id": 1042,
+    "apy": 8.64,
+    "tvl": 17955086,
+    "protocols": [
+      "yearn-finance"
+    ],
+    "rewardTokens": [],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "lending"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1.0432241,
+        "investedApyDaily": 8.64482,
+        "investedApyWeekly": 60.51374,
+        "volume": 1795508.6,
+        "ror": 0.043224099999999994,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "usdc",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:yearn-finance-usds-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_42",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "3033d94b-dcaf-4a0b-a9dd-a92998c74d5e",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
+  },
+  {
+    "name": "SushiSwap WETH-NORMIE",
+    "slug": "as:sushiswap-weth-normie-base",
+    "symbol": "asWETH-NOR",
+    "description": "SushiSwap WETH-NORMIE strategy on Base",
+    "shortDescription": "SushiSwap yield on Base",
+    "nativeAddress": "0x0000000000000000000000000000000000000413",
+    "nativeNetwork": "base-mainnet",
+    "denomination": "weth",
+    "decimals": 18,
+    "scale": 18,
+    "weiPerUnit": 1000000000000000000,
+    "id": 8453043,
+    "apy": 0,
+    "tvl": 12133724,
+    "protocols": [
+      "sushiswap"
+    ],
+    "rewardTokens": [],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "base-mainnet"
+    ],
+    "types": [
+      "liquidity-providing"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1,
+        "investedApyDaily": 0,
+        "investedApyWeekly": 0,
+        "volume": 1213372.4000000001,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "weth",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:sushiswap-weth-normie-base",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_43",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x2105",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "fbf49c21-4d60-429c-bfb4-e215dcdc2204",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
+  },
+  {
+    "name": "Balancer BAL-WETH",
+    "slug": "as:balancer-v2-bal-weth-ethereum",
+    "symbol": "asBAL-WETH",
+    "description": "Balancer BAL-WETH strategy on Ethereum",
+    "shortDescription": "Balancer yield on Ethereum",
+    "nativeAddress": "0x0000000000000000000000000000000000000414",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "weth",
+    "decimals": 18,
+    "scale": 18,
+    "weiPerUnit": 1000000000000000000,
+    "id": 1044,
+    "apy": 3.51,
+    "tvl": 5963988,
+    "protocols": [
+      "balancer-v2"
+    ],
+    "rewardTokens": [],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "lending"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1.01753305,
+        "investedApyDaily": 3.50661,
+        "investedApyWeekly": 24.54627,
+        "volume": 596398.8,
+        "ror": 0.017533049999999998,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "weth",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:balancer-v2-bal-weth-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_44",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "30eedaf4-83f7-418b-985b-89478d4b90e6",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
+  },
+  {
+    "name": "SushiSwap DELTA-WETH",
+    "slug": "as:sushiswap-delta-weth-ethereum",
+    "symbol": "asDELTA-WE",
+    "description": "SushiSwap DELTA-WETH strategy on Ethereum",
+    "shortDescription": "SushiSwap yield on Ethereum",
+    "nativeAddress": "0x0000000000000000000000000000000000000415",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "weth",
+    "decimals": 18,
+    "scale": 18,
+    "weiPerUnit": 1000000000000000000,
+    "id": 1045,
+    "apy": 0,
+    "tvl": 5533526,
+    "protocols": [
+      "sushiswap"
+    ],
+    "rewardTokens": [],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "liquidity-providing"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1,
+        "investedApyDaily": 0,
+        "investedApyWeekly": 0,
+        "volume": 553352.6,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "weth",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:sushiswap-delta-weth-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_45",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "78d075ab-9e77-451b-b390-d8fec7b04143",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
+  },
+  {
+    "name": "SushiSwap PUNK-WETH",
+    "slug": "as:sushiswap-punk-weth-ethereum",
+    "symbol": "asPUNK-WET",
+    "description": "SushiSwap PUNK-WETH strategy on Ethereum",
+    "shortDescription": "SushiSwap yield on Ethereum",
+    "nativeAddress": "0x0000000000000000000000000000000000000416",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "weth",
+    "decimals": 18,
+    "scale": 18,
+    "weiPerUnit": 1000000000000000000,
+    "id": 1046,
+    "apy": 0,
+    "tvl": 3284888,
+    "protocols": [
+      "sushiswap"
+    ],
+    "rewardTokens": [],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "liquidity-providing"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1,
+        "investedApyDaily": 0,
+        "investedApyWeekly": 0,
+        "volume": 328488.80000000005,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "weth",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:sushiswap-punk-weth-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_46",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "16097097-1c84-4a07-86f6-a9113eab2eef",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
+  },
+  {
+    "name": "SushiSwap WBTC-WETH",
+    "slug": "as:sushiswap-wbtc-weth-ethereum",
+    "symbol": "asWBTC-WET",
+    "description": "SushiSwap WBTC-WETH strategy on Ethereum",
+    "shortDescription": "SushiSwap yield on Ethereum",
+    "nativeAddress": "0x0000000000000000000000000000000000000417",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "wbtc",
+    "decimals": 8,
+    "scale": 8,
+    "weiPerUnit": 100000000,
+    "id": 1047,
+    "apy": 0.47,
+    "tvl": 2262541,
+    "protocols": [
+      "sushiswap"
+    ],
+    "rewardTokens": [],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "liquidity-providing"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1.002358,
+        "investedApyDaily": 0.4716,
+        "investedApyWeekly": 3.3012,
+        "volume": 226254.1,
+        "ror": 0.0023580000000000003,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "wbtc",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:sushiswap-wbtc-weth-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_47",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "721c17e7-d8e9-4288-8436-16c27ad264df",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
+  },
+  {
+    "name": "SushiSwap ILV-WETH",
+    "slug": "as:sushiswap-ilv-weth-ethereum",
+    "symbol": "asILV-WETH",
+    "description": "SushiSwap ILV-WETH strategy on Ethereum",
+    "shortDescription": "SushiSwap yield on Ethereum",
+    "nativeAddress": "0x0000000000000000000000000000000000000418",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "weth",
+    "decimals": 18,
+    "scale": 18,
+    "weiPerUnit": 1000000000000000000,
+    "id": 1048,
+    "apy": 2.57,
+    "tvl": 2073553,
+    "protocols": [
+      "sushiswap"
+    ],
+    "rewardTokens": [],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "liquidity-providing"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1.0128353,
+        "investedApyDaily": 2.56706,
+        "investedApyWeekly": 17.96942,
+        "volume": 207355.30000000002,
+        "ror": 0.012835300000000001,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "weth",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:sushiswap-ilv-weth-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_48",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "a951524d-177e-423b-bcf7-a172b376a08d",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
+  },
+  {
+    "name": "Balancer WBTC-WETH",
+    "slug": "as:balancer-v2-wbtc-weth-ethereum",
+    "symbol": "asWBTC-WET",
+    "description": "Balancer WBTC-WETH strategy on Ethereum",
+    "shortDescription": "Balancer yield on Ethereum",
+    "nativeAddress": "0x0000000000000000000000000000000000000419",
+    "nativeNetwork": "ethereum-mainnet",
+    "denomination": "wbtc",
+    "decimals": 8,
+    "scale": 8,
+    "weiPerUnit": 100000000,
+    "id": 1049,
+    "apy": 0.21,
+    "tvl": 1695673,
+    "protocols": [
+      "balancer-v2"
+    ],
+    "rewardTokens": [],
+    "status": "active",
+    "color1": "#627EEA",
+    "color2": "#3C3C3D",
+    "exposureNetworks": [
+      "ethereum-mainnet"
+    ],
+    "types": [
+      "lending"
+    ],
+    "fees": {
+      "entry": 0,
+      "exit": 0,
+      "mgmt": 0.5,
+      "perf": 10
+    },
+    "limits": {
+      "minDeposit": 0.01,
+      "minWithdrawal": 0.01,
+      "maxDeposit": 1000000,
+      "maxSlippage": 1
+    },
+    "valuable": {
+      "initial": {
+        "date": "2024-01-15T00:00:00.000Z",
+        "sharePrice": 1,
+        "volume": 0,
+        "ror": 0,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "last": {
+        "date": "2026-03-15T22:35:37.047Z",
+        "sharePrice": 1.0010632,
+        "investedApyDaily": 0.21264,
+        "investedApyWeekly": 1.48848,
+        "volume": 169567.30000000002,
+        "ror": 0.0010632,
+        "exposureByNetwork": null,
+        "exposureByProtocol": null,
+        "exposureByNetworkByProtocol": null
+      },
+      "denomination": "wbtc",
+      "dateStart": 1742078137047,
+      "dateStop": 1773614137047
+    },
+    "scoring": {
+      "value": 7.5,
+      "weight": 1,
+      "description": "Overall score",
+      "safety": {
+        "value": 8,
+        "weight": 0.3,
+        "description": "Audit score"
+      },
+      "profitability": {
+        "value": 7,
+        "weight": 0.3,
+        "description": "Returns"
+      },
+      "scalability": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Capacity",
+        "_id": "sc"
+      },
+      "liquidity": {
+        "value": 7.5,
+        "weight": 0.2,
+        "description": "Liquidity",
+        "_id": "lq"
+      }
+    },
+    "blocky": {
+      "seed": "as:balancer-v2-wbtc-weth-ethereum",
+      "seedArr": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "theme": {
+        "name": "default",
+        "primary": "#627EEA",
+        "secondary": "#3C3C3D",
+        "bg": [
+          "#1a1b2e"
+        ],
+        "fg": [
+          "#fff"
+        ],
+        "shadow": [
+          "#000"
+        ],
+        "overlay": [
+          "rgba(0,0,0,0.5)"
+        ],
+        "palette": [
+          "#627EEA"
+        ],
+        "primaryPalette": [
+          "#627EEA"
+        ],
+        "success": "#00D395",
+        "warning": "#F0B90B",
+        "error": "#FF4444",
+        "notice": "#00A3FF",
+        "info": "#627EEA",
+        "debug": "#888",
+        "bgSuccess": "#003322",
+        "bgWarning": "#332200",
+        "bgError": "#330011",
+        "bgDebug": "#222",
+        "bgNotice": "#002233",
+        "bgInfo": "#001133"
+      },
+      "size": 8,
+      "scale": 4,
+      "color": "#627EEA",
+      "bgColor": "#1a1b2e",
+      "spotColor": "#B6509E",
+      "canvas": null,
+      "ctx": null,
+      "dataUrl": "",
+      "rendered": false
+    },
+    "_id": "strat_49",
+    "isLastRevision": true,
+    "revision": 1,
+    "createdBy": "system",
+    "updatedBy": "system",
+    "descriptionSlides": [],
+    "landing": "",
+    "docs": "",
+    "codebase": "",
+    "app": "",
+    "twitter": "",
+    "blog": "",
+    "discord": "",
+    "email": "",
+    "telegram": "",
+    "contract": "",
+    "token": "",
+    "isDummy": false,
+    "nonNativeAddresses": [],
+    "standards": [],
+    "explorer": "",
+    "hexId": "0x1",
+    "lzId": 0,
+    "lzEndpoint": "",
+    "coinGeckoId": "",
+    "coinMarketCapId": "",
+    "defiLlamaId": "39980ed4-31dd-4216-a7c7-1b878f367807",
+    "exponentialId": "",
+    "defiSafetyId": "",
+    "solityId": "",
+    "shortAddress": "0x00000000...",
+    "chainlinkId": "",
+    "addressCount": 0,
+    "issuancePrice": 1,
+    "markPrice": 1,
+    "issuanceSupply": 0,
+    "supply": 0,
+    "maxSupply": 0,
+    "lockedSupply": 0,
+    "circulatingSupply": 0,
+    "marketCap": 0,
+    "dilutedMarketCap": 0,
+    "buyEnabled": true,
+    "sellEnabled": true,
+    "buyTax": 0,
+    "sellTax": 0,
+    "minBuy": 0,
+    "maxBuy": 0,
+    "minSell": 0,
+    "maxSell": 0,
+    "aggregationLevel": 1,
+    "deDotFiInfo": null,
+    "coinGeckoInfo": null,
+    "exponentialInfo": null,
+    "contracts": {},
+    "createdAt": "2026-03-15T22:35:37.047Z",
+    "updatedAt": "2026-03-15T22:35:37.047Z"
+  }
 ];
