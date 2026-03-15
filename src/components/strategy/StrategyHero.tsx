@@ -7,10 +7,11 @@ import StrategyBanner from "./StrategyBanner";
 const StrategyHero = () => {
   const grouppedStrategies = useGrouppedStrategies(false);
   const [strategyOne, strategyTwo, groupOne, groupTwo] = useMemo(() => {
-    if (grouppedStrategies.length === 0) return [null, null, null, null];
-    const [groupOne, groupTwo] = grouppedStrategies;
-    const [strategyOne] = groupOne;
-    const [strategyTwo] = groupTwo;
+    if (!Array.isArray(grouppedStrategies) || grouppedStrategies.length === 0) return [null, null, null, null];
+    const groupOne = grouppedStrategies[0] ?? [];
+    const groupTwo = grouppedStrategies[1] ?? [];
+    const [strategyOne] = groupOne.length ? groupOne : [null];
+    const [strategyTwo] = groupTwo.length ? groupTwo : [null];
     return [strategyOne, strategyTwo, groupOne, groupTwo];
   }, [grouppedStrategies]);
 

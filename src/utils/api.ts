@@ -152,52 +152,14 @@ export const getStrategies = async () => {
     );
   }
 
-  // Loop on Strategies by networks to multicall (getting strategy token details)
-  for (const chainId of Object.keys(strategiesByNetwork)) {
-    const networkStrategies: ApiResponseStrategyWithIndex[] =
-      strategiesByNetwork[chainId];
-    const contractsCalls = networkStrategies
-      .map((strategy) => {
-        const call = {
-          abi: AgentABI,
-          address: strategy.nativeAddress,
-        };
-        return ["symbol", "decimals", "sharePrice", "name"].map(
-          (functionName) => ({
-            ...call,
-            functionName,
-          })
-        );
-      })
-      .flat(1);
-
-    const result = await multicall(
-      Number(chainId),
-      contractsCalls as ContractFunctionParameters[]
-    );
-
-    // Add multicall result on api Data
-    for (let i = 0; i < result.length; i += 4) {
-      const [symbol, decimals, sharePrice, name] = result.slice(i, i + 4);
-
-      if (!symbol?.result || !decimals?.result || !name?.result) continue;
-      const strategy = networkStrategies[i / 4];
-      Object.assign(strategiesData[strategy.index], {
-        symbol: symbol?.result,
-        decimals: decimals?.result,
-        sharePrice: Number(sharePrice?.result),
-        name: name?.result,
-      });
-    }
-  }
+  // Skip multicall for mock/demo data — strategies already have symbol/decimals/name from API
+  // In production, this would multicall on-chain contracts for live data
 
   return strategiesData
     .filter((strategy) => {
       const { nativeNetwork, nativeAddress } = strategy;
       const network = Network.bySlug[nativeNetwork];
-
-      const token = getTokenBySlug(strategy.denomination);
-      return !!network && !!token && nativeAddress !== zeroAddress;
+      return !!network && nativeAddress !== zeroAddress;
     })
     .map((strategy) => {
       const {
@@ -232,7 +194,16 @@ export const getStrategies = async () => {
         strategy.weiPerUnit;
       const tvl = calculatedTVL ? calculatedTVL : getRandomTVL(strategy.slug);
 
-      const token = getTokenBySlug(strategy.denomination);
+      const token = getTokenBySlug(strategy.denomination) ?? {
+        address: '0x0000000000000000000000000000000000000000' as `0x${string}`,
+        symbol: strategy.denomination?.toUpperCase() ?? 'USD',
+        decimals: strategy.scale ?? 18,
+        weiPerUnit: 10 ** (strategy.scale ?? 18),
+        icon: `/images/tokens/${strategy.denomination ?? 'usdc'}.svg`,
+        network,
+        slug: strategy.denomination ?? 'usdc',
+        coinGeckoId: '',
+      };
 
       return new Strategy({
         name,

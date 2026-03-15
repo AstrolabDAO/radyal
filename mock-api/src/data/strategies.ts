@@ -78,7 +78,7 @@ export const strategies = [
   {
     _id: "66c1d2e3f4a5b6c7d8e9f0a1",
     isLastRevision: true, revision: 1, createdBy: "system", updatedBy: "system",
-    name: "Aave USDC Lending", slug: "aave-usdc-lending",
+    name: "Aave USDC Lending", slug: "as:aave-usdc-lending",
     description: "Lend USDC on Aave V3 to earn supply interest. Conservative strategy with battle-tested smart contracts.",
     shortDescription: "USDC lending on Aave V3",
     descriptionSlides: [], color1: "#B6509E", color2: "#2EBAC6",
@@ -117,7 +117,7 @@ export const strategies = [
   {
     _id: "66c1d2e3f4a5b6c7d8e9f0a2",
     isLastRevision: true, revision: 1, createdBy: "system", updatedBy: "system",
-    name: "Lido stETH Yield", slug: "lido-steth-yield",
+    name: "Lido stETH Yield", slug: "as:lido-steth-yield",
     description: "Stake ETH through Lido to receive stETH and earn Ethereum staking rewards.",
     shortDescription: "ETH liquid staking via Lido",
     descriptionSlides: [], color1: "#00A3FF", color2: "#0082CC",
@@ -156,7 +156,7 @@ export const strategies = [
   {
     _id: "66c1d2e3f4a5b6c7d8e9f0a3",
     isLastRevision: true, revision: 1, createdBy: "system", updatedBy: "system",
-    name: "Curve 3pool LP", slug: "curve-3pool-lp",
+    name: "Curve 3pool LP", slug: "as:curve-3pool-lp",
     description: "Provide liquidity to Curve's 3pool (DAI/USDC/USDT) and earn trading fees plus CRV rewards.",
     shortDescription: "Curve stablecoin LP",
     descriptionSlides: [], color1: "#FF6B6B", color2: "#0000FF",
@@ -195,7 +195,7 @@ export const strategies = [
   {
     _id: "66c1d2e3f4a5b6c7d8e9f0a4",
     isLastRevision: true, revision: 1, createdBy: "system", updatedBy: "system",
-    name: "Compound USDT Supply", slug: "compound-usdt-supply",
+    name: "Compound USDT Supply", slug: "as:compound-usdt-supply",
     description: "Supply USDT to Compound V3 to earn variable interest rates.",
     shortDescription: "USDT lending on Compound V3",
     descriptionSlides: [], color1: "#00D395", color2: "#00A876",
@@ -234,7 +234,7 @@ export const strategies = [
   {
     _id: "66c1d2e3f4a5b6c7d8e9f0a5",
     isLastRevision: true, revision: 1, createdBy: "system", updatedBy: "system",
-    name: "Convex stETH/ETH", slug: "convex-steth-eth",
+    name: "Convex stETH/ETH", slug: "as:convex-steth-eth",
     description: "Provide stETH/ETH liquidity on Curve via Convex for boosted CRV + CVX rewards.",
     shortDescription: "Boosted Curve stETH/ETH LP",
     descriptionSlides: [], color1: "#3A82F7", color2: "#2E68C6",
@@ -273,7 +273,7 @@ export const strategies = [
   {
     _id: "66c1d2e3f4a5b6c7d8e9f0a6",
     isLastRevision: true, revision: 1, createdBy: "system", updatedBy: "system",
-    name: "Aave WBTC Lending", slug: "aave-wbtc-lending",
+    name: "Aave WBTC Lending", slug: "as:aave-wbtc-lending",
     description: "Lend WBTC on Aave V3 to earn supply interest on your Bitcoin holdings.",
     shortDescription: "WBTC lending on Aave V3",
     descriptionSlides: [], color1: "#F7931A", color2: "#C47514",
@@ -312,7 +312,7 @@ export const strategies = [
   {
     _id: "66c1d2e3f4a5b6c7d8e9f0a7",
     isLastRevision: true, revision: 1, createdBy: "system", updatedBy: "system",
-    name: "Aave USDC Polygon", slug: "aave-usdc-polygon",
+    name: "Aave USDC Polygon", slug: "as:aave-usdc-polygon",
     description: "Lend USDC on Aave V3 Polygon for higher yields with lower gas costs.",
     shortDescription: "USDC lending on Aave V3 Polygon",
     descriptionSlides: [], color1: "#8247E5", color2: "#B6509E",
@@ -351,7 +351,7 @@ export const strategies = [
   {
     _id: "66c1d2e3f4a5b6c7d8e9f0a8",
     isLastRevision: true, revision: 1, createdBy: "system", updatedBy: "system",
-    name: "Curve Arbitrum USDC/USDT", slug: "curve-arb-usdc-usdt",
+    name: "Curve Arbitrum USDC/USDT", slug: "as:curve-arb-usdc-usdt",
     description: "Provide USDC/USDT liquidity on Curve Arbitrum for low-slippage stablecoin trading fees.",
     shortDescription: "Curve stable LP on Arbitrum",
     descriptionSlides: [], color1: "#28A0F0", color2: "#FF6B6B",
@@ -390,7 +390,7 @@ export const strategies = [
   {
     _id: "66c1d2e3f4a5b6c7d8e9f0a9",
     isLastRevision: true, revision: 1, createdBy: "system", updatedBy: "system",
-    name: "Morpho USDC Optimizer", slug: "morpho-usdc-optimizer",
+    name: "Morpho USDC Optimizer", slug: "as:morpho-usdc-optimizer",
     description: "Optimize USDC lending rates via Morpho's peer-to-peer matching on top of Aave.",
     shortDescription: "P2P optimized USDC lending",
     descriptionSlides: [], color1: "#2C3E8F", color2: "#1E2B66",
@@ -429,7 +429,7 @@ export const strategies = [
   {
     _id: "66c1d2e3f4a5b6c7d8e9f0aa",
     isLastRevision: true, revision: 1, createdBy: "system", updatedBy: "system",
-    name: "Yearn USDC Vault", slug: "yearn-usdc-vault",
+    name: "Yearn USDC Vault", slug: "as:yearn-usdc-vault",
     description: "Automated yield optimization for USDC across multiple DeFi protocols via Yearn strategies.",
     shortDescription: "Yearn auto-compounding USDC",
     descriptionSlides: [], color1: "#006AE3", color2: "#0054B5",
@@ -468,7 +468,7 @@ export const strategies = [
   {
     _id: "66c1d2e3f4a5b6c7d8e9f0ab",
     isLastRevision: true, revision: 1, createdBy: "system", updatedBy: "system",
-    name: "Balancer wstETH/ETH", slug: "balancer-wsteth-eth",
+    name: "Balancer wstETH/ETH", slug: "as:balancer-wsteth-eth",
     description: "Provide wstETH/ETH liquidity on Balancer weighted pools for trading fees and BAL rewards.",
     shortDescription: "Balancer wstETH/ETH LP",
     descriptionSlides: [], color1: "#1E1E1E", color2: "#4C4C4C",
@@ -507,7 +507,7 @@ export const strategies = [
   {
     _id: "66c1d2e3f4a5b6c7d8e9f0ac",
     isLastRevision: true, revision: 1, createdBy: "system", updatedBy: "system",
-    name: "Stargate USDC Bridge LP", slug: "stargate-usdc-bridge",
+    name: "Stargate USDC Bridge LP", slug: "as:stargate-usdc-bridge",
     description: "Provide USDC liquidity to Stargate bridge pools and earn STG rewards from cross-chain transfers.",
     shortDescription: "Stargate cross-chain USDC LP",
     descriptionSlides: [], color1: "#FFFFFF", color2: "#000000",
@@ -546,7 +546,7 @@ export const strategies = [
   {
     _id: "66c1d2e3f4a5b6c7d8e9f0ad",
     isLastRevision: true, revision: 1, createdBy: "system", updatedBy: "system",
-    name: "Aave ETH Optimism", slug: "aave-eth-optimism",
+    name: "Aave ETH Optimism", slug: "as:aave-eth-optimism",
     description: "Lend ETH on Aave V3 Optimism with low gas costs and OP incentives.",
     shortDescription: "ETH lending on Aave V3 Optimism",
     descriptionSlides: [], color1: "#FF0420", color2: "#B6509E",
@@ -585,7 +585,7 @@ export const strategies = [
   {
     _id: "66c1d2e3f4a5b6c7d8e9f0ae",
     isLastRevision: true, revision: 1, createdBy: "system", updatedBy: "system",
-    name: "Compound USDC Base", slug: "compound-usdc-base",
+    name: "Compound USDC Base", slug: "as:compound-usdc-base",
     description: "Supply USDC on Compound V3 Base for yield with minimal gas costs.",
     shortDescription: "USDC lending on Compound V3 Base",
     descriptionSlides: [], color1: "#0052FF", color2: "#00D395",
@@ -624,7 +624,7 @@ export const strategies = [
   {
     _id: "66c1d2e3f4a5b6c7d8e9f0af",
     isLastRevision: true, revision: 1, createdBy: "system", updatedBy: "system",
-    name: "Curve Avalanche USDC/USDT", slug: "curve-avax-usdc-usdt",
+    name: "Curve Avalanche USDC/USDT", slug: "as:curve-avax-usdc-usdt",
     description: "Provide USDC/USDT liquidity on Curve Avalanche for stable trading fees.",
     shortDescription: "Curve stable LP on Avalanche",
     descriptionSlides: [], color1: "#E84142", color2: "#FF6B6B",
