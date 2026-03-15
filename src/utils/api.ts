@@ -215,7 +215,7 @@ export const getStrategies = async () => {
         valuable,
         color1,
         color2,
-        icon: `/images/tokens/asl.svg`,
+        icon: `/images/tokens/${token?.symbol?.toLowerCase() ?? strategy.denomination ?? 'usdc'}.svg`,
         slug,
         weiPerUnit: 10 ** decimals,
         sharePrice,
