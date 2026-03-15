@@ -141,7 +141,7 @@ export const updateEstimation = async (estimationData: Estimation) => {
             abi: erc20Abi,
             functionName: "allowance",
             args: [address, spender],
-          });
+          } as any);
 
     const isDeposit = interaction === ActionInteraction.DEPOSIT;
     const { weiPerUnit } = from;
@@ -152,7 +152,7 @@ export const updateEstimation = async (estimationData: Estimation) => {
 
     const approveAmount = fromAmount;
 
-    const needApprove = allowance !== -1 && allowance < approveAmount;
+    const needApprove = allowance !== -1 && Number(allowance) < approveAmount;
 
     if (needApprove && steps[0].type !== "approve") {
       (isDeposit ? leftArray : rightArray).unshift({

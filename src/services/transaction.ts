@@ -21,7 +21,7 @@ export const executeContract = async ({ abi = erc20Abi, ...args }: TxArgs) => {
   return writeContract(getWagmiConfig(), {
     ...args,
     abi,
-  });
+  } as any);
   //return await writeContract(await prepareWriteTx({ abi, ...args }));
 };
 

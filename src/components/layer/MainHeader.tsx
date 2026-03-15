@@ -1,7 +1,7 @@
 import { useAccount } from "wagmi";
 import { useState, useEffect } from "react";
 
-import { useWeb3Modal } from "@web3modal/wagmi/react";
+import { useAppKit } from "@reown/appkit/react";
 import { shortenAddress } from "~/utils/format";
 
 import Logo from "~/assets/logo/logo.svg?react";
@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
   const { address, isConnected } = useAccount();
-  const web3Modal = useWeb3Modal();
+  const web3Modal = useAppKit();
 
   const [scrolling, setScrolling] = useState(false);
 

@@ -7,7 +7,10 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "mock-api": "cd mock-api && npm run dev",
+    "mock-api:build": "cd mock-api && npm run build",
+    "mock-api:start": "cd mock-api && npm start"
   },
   "dependencies": {
     "@astrolabs/registry": "^1.0.43",
@@ -16,12 +19,13 @@
     "@heroicons/react": "^2.0.18",
     "@mdx-js/rollup": "^3.0.1",
     "@reduxjs/toolkit": "^2.0.1",
+    "@reown/appkit": "^1.8.19",
+    "@reown/appkit-adapter-wagmi": "^1.8.19",
     "@tanstack/query-async-storage-persister": "^5.10.0",
     "@tanstack/query-sync-storage-persister": "^5.22.2",
     "@tanstack/react-query": "^5.10.0",
     "@tanstack/react-query-persist-client": "^5.22.2",
     "@types/shade-blend-color": "^1.0.3",
-    "@web3modal/wagmi": "^4.0.5",
     "abitype": "^0.10.2",
     "axios": "^1.6.2",
     "babel-plugin-macros": "^3.1.0",

@@ -1,10 +1,10 @@
-import { useWeb3Modal } from "@web3modal/wagmi/react";
+import { useAppKit } from "@reown/appkit/react";
 import { useAccount } from "wagmi";
 import Info from "~/assets/icons/info.svg?react";
 import { Button } from "../styled";
 export const ConnectMask = ({ title }) => {
   const { isConnected } = useAccount();
-  const web3Modal = useWeb3Modal();
+  const web3Modal = useAppKit();
   if (isConnected) return;
   return (
     <div className="fixed z-50 bg-blur left-0 top-O w-full h-full flex flex-col justify-center">

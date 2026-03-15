@@ -2,7 +2,7 @@ import { unwraps, wagmiChainById } from "./mappings";
 import { ChainRpcUrls } from "./interfaces";
 
 import md5 from "md5";
-import { zeroAddress } from "viem";
+import { defineChain, zeroAddress } from "viem";
 import { getDigits, round, truncateTrailingZeroes } from "./maths";
 import { dateToDateString, dateToString, dateToTimeString } from "./date";
 import { Callable, Stringifiable } from "./typing";
@@ -89,9 +89,15 @@ export const networkToWagmiChain = (network: NetworkInterface) => {
 
   if (wagmiNetwork) return wagmiNetwork;
 
-  wagmiNetwork.rpcUrls.default = {
-    http: network.httpRpcs,
-  } as ChainRpcUrls;
+  // Unknown network — build a minimal chain definition
+  return defineChain({
+    id: network.id,
+    name: network.name ?? `Chain ${network.id}`,
+    nativeCurrency: { name: 'ETH', symbol: 'ETH', decimals: 18 },
+    rpcUrls: {
+      default: { http: network.httpRpcs ?? [] },
+    },
+  });
 };
 
 export const overrideZeroAddress = (address: string) => {
@@ -248,7 +254,7 @@ export function bytesToString(
 }
 
 export function bytesToObject(arr: Uint8Array): any {
-  return JSON.parse(bytesToString(arr));
+  return JSON.parse(bytesToString(arr.buffer as ArrayBuffer));
 }
 
 export function newlinesToHtml(str: string) {

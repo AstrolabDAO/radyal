@@ -6,7 +6,7 @@ import { getStrategyIcon } from "~/utils";
 import { Strategy } from "~/utils/interfaces";
 
 import StrategyCardIcons from "./StrategyCardIcons";
-import { useWeb3Modal } from "@web3modal/wagmi/react";
+import { useAppKit } from "@reown/appkit/react";
 
 import { openModal } from "~/services/modal";
 import { selectStrategy, selectStrategyGroup } from "~/services/strategies";
@@ -20,7 +20,7 @@ interface StrategyProps {
 }
 
 const StrategyCardCTAOne = ({ strategyGroup }: StrategyProps) => {
-  const web3Modal = useWeb3Modal();
+  const web3Modal = useAppKit();
   const [shouldOpenModal, setShouldOpenModal] = useState<boolean>(false);
 
   // handleConnect is called when the user connects to the wallet

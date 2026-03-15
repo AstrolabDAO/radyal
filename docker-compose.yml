@@ -1,0 +1,44 @@
+services:
+  mock-api:
+    build:
+      context: ./mock-api
+      dockerfile: Dockerfile
+    container_name: radyal-mock-api
+    restart: unless-stopped
+    expose:
+      - "4200"
+    networks:
+      - traefik-public
+      - default
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.radyal-api.rule=Host(`radyal.asciacca.dev`) && PathPrefix(`/v1`)"
+      - "traefik.http.routers.radyal-api.entrypoints=websecure"
+      - "traefik.http.routers.radyal-api.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.radyal-api.priority=100"
+      - "traefik.http.services.radyal-api.loadbalancer.server.port=4200"
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: radyal-frontend
+    restart: unless-stopped
+    depends_on:
+      - mock-api
+    expose:
+      - "80"
+    networks:
+      - traefik-public
+      - default
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.radyal-frontend.rule=Host(`radyal.asciacca.dev`)"
+      - "traefik.http.routers.radyal-frontend.entrypoints=websecure"
+      - "traefik.http.routers.radyal-frontend.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.radyal-frontend.priority=1"
+      - "traefik.http.services.radyal-frontend.loadbalancer.server.port=80"
+
+networks:
+  traefik-public:
+    external: true

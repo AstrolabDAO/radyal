@@ -5,7 +5,8 @@ import { useDispatch } from "react-redux";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
-import { WagmiProvider } from "wagmi";
+import { WagmiProvider, createConfig, http } from "wagmi";
+import { mainnet } from "wagmi/chains";
 import Modal from "./components/Modal.tsx";
 import { AppProvider } from "./context/app.context.tsx";
 import { useIsMobile } from "./hooks/utils.ts";
@@ -14,6 +15,12 @@ import MobileLock from "./pages/MobileLock.tsx";
 
 import { checkInterval } from "./services/operation";
 import { updateIntervalId } from "./store/operations";
+
+// Fallback wagmi config so WagmiProvider never receives null
+const fallbackWagmiConfig = createConfig({
+  chains: [mainnet],
+  transports: { [mainnet.id]: http() },
+});
 
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
 import { persistQueryClient } from "@tanstack/react-query-persist-client";
@@ -62,10 +69,8 @@ function App() {
     dispatch(updateIntervalId({ intervalId: checkInterval() }));
   }, [dispatch]);
 
-  if (networksIsLoading) return null;
-
   return (
-    <WagmiProvider config={wagmiConfig}>
+    <WagmiProvider config={wagmiConfig ?? fallbackWagmiConfig}>
       <QueryClientProvider client={queryClient}>
         <AppProvider />
         <DisclaimerProvider>

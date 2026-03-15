@@ -3,8 +3,6 @@ import { Network, NetworkInterface } from "~/model/network";
 import { IProtocol } from "~/model/protocol";
 import { fetchNetworks, fetchProtocols } from "./api/astrolab";
 
-import { createWeb3Modal } from "@web3modal/wagmi/react";
-import { defaultWagmiConfig } from "@web3modal/wagmi/react/config";
 import { setupWeb3modal } from "~/utils/setup-web3modal";
 
 type Web3ModalConfig = ReturnType<typeof setupWeb3modal>;
@@ -49,7 +47,7 @@ const web3Slice = createSlice({
     },
     setConfig: (state, action: PayloadAction<Web3ModalConfig>) => {
       const { web3Modal, config } = action.payload;
-      state.config.web3Modal = web3Modal;
+      state.config.web3Modal = web3Modal as any;
       state.config.config = config;
       state.loading.wagmiConfig = false;
     },
@@ -66,6 +64,9 @@ const web3Slice = createSlice({
       state.loading.networks = false;
       state.networks = action.payload;
     });
+    builder.addCase(fetchNetworks.rejected, (state) => {
+      state.loading.networks = false;
+    });
 
     builder.addCase(fetchProtocols.pending, (state) => {
       state.loading.protocols = true;
@@ -73,6 +74,9 @@ const web3Slice = createSlice({
     builder.addCase(fetchProtocols.fulfilled, (state, action) => {
       state.loading.protocols = false;
       state.protocols = action.payload;
+    });
+    builder.addCase(fetchProtocols.rejected, (state) => {
+      state.loading.protocols = false;
     });
   },
 });

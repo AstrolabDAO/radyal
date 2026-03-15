@@ -45,7 +45,7 @@ export const initStore = async (store) => {
     store.dispatch(setProtocols(localProtocols.map((p) => new Protocol(p))));
     const chains = localNetworks.map((network) => networkToWagmiChain(network));
 
-    store.dispatch(setConfig(setupWeb3modal(chains) as any));
+    try { store.dispatch(setConfig(setupWeb3modal(chains) as any)); } catch(e) { console.warn('[radyal] Web3modal init failed:', e); }
     store.dispatch(
       init({
         strategies: localStrategies.map((s) => new Strategy(s)),
@@ -84,9 +84,12 @@ export const fetchNetworks = createAsyncThunk(
       const networks = await formatNetworks(result.data);
       const chains = networks.map((n) => networkToWagmiChain(n));
 
-      const config = setupWeb3modal(chains) as any;
-
-      store.dispatch(setConfig(config));
+      try {
+        const config = setupWeb3modal(chains) as any;
+        store.dispatch(setConfig(config));
+      } catch (e) {
+        console.warn('[radyal] Web3modal setup failed (non-blocking):', e);
+      }
       return networks;
     } catch (error) {
       return rejectWithValue(error.message);
