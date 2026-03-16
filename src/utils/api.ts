@@ -187,12 +187,16 @@ export const getStrategies = async () => {
       const dailyAPY = strategy?.valuable?.last?.investedApyDaily;
       const mockApy = getRandomAPY(strategy.slug);
 
-      const apy = dailyAPY ? Math.round(dailyAPY * 100) / 100 : mockApy;
+      // APY: investedApyDaily is already in percent form (e.g. 2.37 = 2.37%)
+      // toPercent() expects a ratio (0.0237), so divide by 100
+      const apy = dailyAPY ? Math.round(dailyAPY * 100) / 10000 : mockApy;
 
+      // TVL: use the pre-computed tvl field (already in USD) if available,
+      // fallback to calculated value only if needed
+      const rawTvl = strategy.tvl;
       const calculatedTVL =
-        (valuable?.last?.volume * valuable?.last?.sharePrice) /
-        strategy.weiPerUnit;
-      const tvl = calculatedTVL ? calculatedTVL : getRandomTVL(strategy.slug);
+        (valuable?.last?.volume * valuable?.last?.sharePrice);
+      const tvl = rawTvl ? rawTvl : (calculatedTVL ? calculatedTVL : getRandomTVL(strategy.slug));
 
       const token = getTokenBySlug(strategy.denomination) ?? {
         address: '0x0000000000000000000000000000000000000000' as `0x${string}`,
