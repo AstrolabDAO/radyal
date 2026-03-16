@@ -81,6 +81,8 @@ export interface ApiResponseStrategy {
   solityId: string;
   weiPerUnit: number;
   scale: number;
+  apy?: number;
+  tvl?: number;
   addressCount: number;
   issuancePrice: number;
   markPrice: number;
