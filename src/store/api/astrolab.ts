@@ -26,8 +26,18 @@ import { addBalances } from "../tokens";
 const refetchInterval = (fetchingFunction: CallableFunction, timer: number) => {
   return setInterval(fetchingFunction, timer);
 };
+const CACHE_VERSION = "aave-v3-base-v1";
+
 export const initStore = async (store) => {
   try {
+    // Bust cache when data model changes
+    const cachedVersion = await localforage.getItem("cacheVersion");
+    if (cachedVersion !== CACHE_VERSION) {
+      await localforage.clear();
+      await localforage.setItem("cacheVersion", CACHE_VERSION);
+      throw Error("Cache cleared for new version");
+    }
+
     const localNetworks: NetworkInterface[] = JSON.parse(
       await localforage.getItem("networks")
     );
