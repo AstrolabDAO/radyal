@@ -14,7 +14,7 @@ export const protocols = [
   {
     _id: "65b1c2d3e4f5a6b7c8d9e0f1",
     isLastRevision: true, revision: 1, createdBy: "system", updatedBy: "system",
-    name: "Aave", slug: "aave",
+    name: "Aave", slug: "aave", icon: "/images/protocols/aave.svg",
     description: "Aave is an open source and non-custodial liquidity protocol for earning interest on deposits and borrowing assets.",
     shortDescription: "Decentralized lending protocol",
     descriptionSlides: [], color1: "#B6509E", color2: "#2EBAC6",
@@ -33,7 +33,7 @@ export const protocols = [
   {
     _id: "65b1c2d3e4f5a6b7c8d9e0f2",
     isLastRevision: true, revision: 1, createdBy: "system", updatedBy: "system",
-    name: "Compound", slug: "compound",
+    name: "Compound", slug: "compound", icon: "/images/protocols/compound.svg",
     description: "Compound is an algorithmic, autonomous interest rate protocol built for developers.",
     shortDescription: "Algorithmic money market",
     descriptionSlides: [], color1: "#00D395", color2: "#00A876",
@@ -52,7 +52,7 @@ export const protocols = [
   {
     _id: "65b1c2d3e4f5a6b7c8d9e0f3",
     isLastRevision: true, revision: 1, createdBy: "system", updatedBy: "system",
-    name: "Lido", slug: "lido",
+    name: "Lido", slug: "lido", icon: "/images/protocols/lido.svg",
     description: "Lido is a liquid staking solution for Ethereum and other PoS blockchains.",
     shortDescription: "Liquid staking protocol",
     descriptionSlides: [], color1: "#00A3FF", color2: "#0082CC",
@@ -71,7 +71,7 @@ export const protocols = [
   {
     _id: "65b1c2d3e4f5a6b7c8d9e0f4",
     isLastRevision: true, revision: 1, createdBy: "system", updatedBy: "system",
-    name: "Curve", slug: "curve",
+    name: "Curve", slug: "curve", icon: "/images/protocols/curve.svg",
     description: "Curve is a decentralized exchange optimized for stablecoin trading with low slippage.",
     shortDescription: "Stablecoin DEX",
     descriptionSlides: [], color1: "#FF6B6B", color2: "#0000FF",
@@ -90,7 +90,7 @@ export const protocols = [
   {
     _id: "65b1c2d3e4f5a6b7c8d9e0f5",
     isLastRevision: true, revision: 1, createdBy: "system", updatedBy: "system",
-    name: "Uniswap", slug: "uniswap",
+    name: "Uniswap", slug: "uniswap", icon: "/images/protocols/uniswap.svg",
     description: "Uniswap is a decentralized trading protocol known for its automated market making.",
     shortDescription: "Leading DEX protocol",
     descriptionSlides: [], color1: "#FF007A", color2: "#CC0062",
@@ -109,7 +109,7 @@ export const protocols = [
   {
     _id: "65b1c2d3e4f5a6b7c8d9e0f6",
     isLastRevision: true, revision: 1, createdBy: "system", updatedBy: "system",
-    name: "Convex", slug: "convex",
+    name: "Convex", slug: "convex", icon: "/images/protocols/convex-finance.svg",
     description: "Convex Finance allows Curve liquidity providers to earn boosted CRV rewards without locking CRV.",
     shortDescription: "Curve yield booster",
     descriptionSlides: [], color1: "#3A82F7", color2: "#2E68C6",
@@ -128,7 +128,7 @@ export const protocols = [
   {
     _id: "65b1c2d3e4f5a6b7c8d9e0f7",
     isLastRevision: true, revision: 1, createdBy: "system", updatedBy: "system",
-    name: "Yearn", slug: "yearn",
+    name: "Yearn", slug: "yearn", icon: "/images/protocols/yearn-finance.svg",
     description: "Yearn Finance is a suite of DeFi products providing yield generation and aggregation.",
     shortDescription: "Yield aggregator",
     descriptionSlides: [], color1: "#006AE3", color2: "#0054B5",
@@ -147,7 +147,7 @@ export const protocols = [
   {
     _id: "65b1c2d3e4f5a6b7c8d9e0f8",
     isLastRevision: true, revision: 1, createdBy: "system", updatedBy: "system",
-    name: "Stargate", slug: "stargate",
+    name: "Stargate", slug: "stargate", icon: "/images/protocols/stargate-finance.svg",
     description: "Stargate is a fully composable liquidity transport protocol built on LayerZero.",
     shortDescription: "Cross-chain bridge protocol",
     descriptionSlides: [], color1: "#FFFFFF", color2: "#000000",
@@ -166,7 +166,7 @@ export const protocols = [
   {
     _id: "65b1c2d3e4f5a6b7c8d9e0f9",
     isLastRevision: true, revision: 1, createdBy: "system", updatedBy: "system",
-    name: "Morpho", slug: "morpho",
+    name: "Morpho", slug: "morpho", icon: "/images/protocols/morpho-protocol.svg",
     description: "Morpho is an on-chain peer-to-peer lending protocol optimizing rates on top of lending pools.",
     shortDescription: "P2P lending optimizer",
     descriptionSlides: [], color1: "#2C3E8F", color2: "#1E2B66",
@@ -185,7 +185,7 @@ export const protocols = [
   {
     _id: "65b1c2d3e4f5a6b7c8d9e0fa",
     isLastRevision: true, revision: 1, createdBy: "system", updatedBy: "system",
-    name: "Balancer", slug: "balancer",
+    name: "Balancer", slug: "balancer", icon: "/images/protocols/balancer.svg",
     description: "Balancer is a decentralized automated portfolio manager and trading platform.",
     shortDescription: "Weighted pool AMM",
     descriptionSlides: [], color1: "#1E1E1E", color2: "#4C4C4C",
