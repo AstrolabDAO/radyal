@@ -31,6 +31,61 @@ app.get("/v1/strategies", (_req, res) => {
   res.json({ data: strategies });
 });
 
+// GET /v1/strategies/live - Fetch live APY/TVL from DeFi Llama
+app.get("/v1/strategies/live", async (_req, res) => {
+  try {
+    const response = await fetch("https://yields.llama.fi/pools");
+    const data = (await response.json()) as {
+      data: Array<{
+        project: string;
+        chain: string;
+        symbol: string;
+        pool: string;
+        apy: number;
+        tvlUsd: number;
+        apyBase: number;
+        apyReward: number;
+      }>;
+    };
+
+    const pools = data.data.filter(
+      (pool) =>
+        pool.project === "aave-v3" &&
+        pool.chain === "Base" &&
+        (pool.symbol === "USDC" || pool.symbol === "WETH")
+    );
+
+    const liveStrategies = strategies.map((strategy) => {
+      const symbol = strategy.denomination.toUpperCase();
+      const pool = pools.find((p) => p.symbol === symbol);
+      return {
+        slug: strategy.slug,
+        name: strategy.name,
+        apy: pool?.apy ?? strategy.apy,
+        tvl: pool?.tvlUsd ?? strategy.tvl,
+        apyBase: pool?.apyBase ?? strategy.apy,
+        apyReward: pool?.apyReward ?? 0,
+        defiLlamaPool: pool?.pool ?? null,
+      };
+    });
+
+    res.json({ data: liveStrategies });
+  } catch (error) {
+    // Fallback to static data on fetch failure
+    res.json({
+      data: strategies.map((s) => ({
+        slug: s.slug,
+        name: s.name,
+        apy: s.apy,
+        tvl: s.tvl,
+        apyBase: s.apy,
+        apyReward: 0,
+        defiLlamaPool: null,
+      })),
+    });
+  }
+});
+
 // GET /v1/tokens
 app.get("/v1/tokens", (_req, res) => {
   res.json({ data: tokens });
@@ -45,36 +100,27 @@ app.get("/v1/users/balance/:address", (req, res) => {
         address,
         tokens: [
           {
-            address: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+            address: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
             symbol: "USDC",
             decimals: 6,
             balance: "15234560000",
             balanceFormatted: "15234.56",
             valueUsd: 15234.56,
-            network: "ethereum-mainnet",
+            network: "base-mainnet",
           },
           {
-            address: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+            address: "0x4200000000000000000000000000000000000006",
             symbol: "WETH",
             decimals: 18,
             balance: "2500000000000000000",
             balanceFormatted: "2.5",
             valueUsd: 7500.0,
-            network: "ethereum-mainnet",
-          },
-          {
-            address: "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
-            symbol: "WBTC",
-            decimals: 8,
-            balance: "15000000",
-            balanceFormatted: "0.15",
-            valueUsd: 9750.0,
-            network: "ethereum-mainnet",
+            network: "base-mainnet",
           },
         ],
-        totalValue: 32484.56,
+        totalValue: 22734.56,
         errors: [],
-        totalUsd: 32484.56,
+        totalUsd: 22734.56,
         account: address,
       },
     },
@@ -87,6 +133,7 @@ app.listen(PORT, () => {
   console.log(`  GET /v1/networks`);
   console.log(`  GET /v1/protocols`);
   console.log(`  GET /v1/strategies`);
+  console.log(`  GET /v1/strategies/live`);
   console.log(`  GET /v1/tokens`);
   console.log(`  GET /v1/users/balance/:address`);
 });

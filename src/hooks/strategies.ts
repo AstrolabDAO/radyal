@@ -1,4 +1,3 @@
-import { abi } from "@astrolabs/registry/abis/StrategyV5.json";
 import { useCallback } from "react";
 import { useAccount, useContractRead, usePublicClient } from "wagmi";
 import { useSwitchNetwork } from "./transaction";
@@ -6,6 +5,7 @@ import { useSwitchNetwork } from "./transaction";
 import toast from "react-hot-toast";
 
 import { getWalletClient } from "@wagmi/core";
+import { erc20Abi } from "abitype/abis";
 import { useSelector, useStore } from "react-redux";
 
 import { Operation, OperationStatus, OperationStep } from "~/model/operation";
@@ -14,7 +14,9 @@ import { getAccount, getPublicClient } from "wagmi/actions";
 import { closeModal, openModal } from "~/services/modal";
 import { addOperation, emmitStep, updateOperation } from "~/services/operation";
 import { getInteractionNeedToSwap, getSwapperStore } from "~/services/swapper";
+import { AaveV3PoolABI, AAVE_V3_POOL } from "~/services/swap";
 import { approve } from "~/services/transaction";
+import { networkToWagmiChain } from "~/utils/format";
 import { getWagmiConfig } from "~/services/web3";
 import { IRootState } from "~/store";
 import {
@@ -61,43 +63,19 @@ export const useMaxRedeem = () => {
   const { network } = strategy;
   const { address } = useAccount();
 
+  // Read user's aToken balance (ERC20 balanceOf) as max redeemable amount
   return useContractRead({
-    abi: abi,
+    abi: erc20Abi,
     address: strategy.address,
     chainId: network.id,
-    functionName: "maxRedeem",
-    args: [address],
+    functionName: "balanceOf",
+    args: [address!],
   })?.data;
-};
-
-export const useStrategyContractFunction = (functionName: string) => {
-  if (abi.find((f) => f.name === functionName) === undefined)
-    throw new Error(
-      `Function ${functionName} does not exist on Strategy contract`
-    );
-  const strategy = useSelectedStrategy();
-  const { network } = strategy;
-
-  return useCallback(
-    async (args?: any) => {
-      const walletClient = await getWalletClient(getWagmiConfig(), {
-        chainId: network.id,
-      });
-      return walletClient.writeContract({
-        address: strategy.address,
-        abi,
-        functionName,
-        args,
-      } as any);
-    },
-    [functionName, network.id, strategy.address]
-  );
 };
 
 export const useDeposit = () => {
   const strategy = useSelectedStrategy();
   const { network } = strategy;
-  const deposit = useStrategyContractFunction("safeDeposit");
   const switchNetwork = useSwitchNetwork(network.id);
   const { address } = useAccount();
 
@@ -105,21 +83,31 @@ export const useDeposit = () => {
     async (amount: bigint) => {
       await switchNetwork();
       try {
-        return await deposit([amount, "0", address]);
+        const walletClient = await getWalletClient(getWagmiConfig(), {
+          chainId: network.id,
+        });
+        // Call Aave V3 Pool supply(asset, amount, onBehalfOf, referralCode)
+        return await walletClient.writeContract({
+          address: AAVE_V3_POOL as `0x${string}`,
+          abi: AaveV3PoolABI,
+          functionName: "supply",
+          args: [strategy.asset.address!, amount, address!, 0],
+          chain: networkToWagmiChain(network) as any,
+          account: address!,
+        });
       } catch (e) {
         console.error(e);
       }
     },
-    [address, deposit, switchNetwork]
+    [address, network.id, strategy.asset.address, switchNetwork]
   );
 };
 
 export const useWithdraw = () => {
   const strategy = useSelectedStrategy();
-
-  const withdraw = useStrategyContractFunction("safeRedeem");
+  const { network } = strategy;
   const publicClient = usePublicClient({
-    chainId: strategy?.network?.id,
+    chainId: network?.id,
   });
   const { address } = useAccount();
   return useCallback(
@@ -142,12 +130,19 @@ export const useWithdraw = () => {
         estimation: estimatedRoute,
       });
       addOperation(operation);
-      const hash = (await withdraw([
-        amount,
-        "1",
-        address,
-        address,
-      ])) as `0x${string}`;
+
+      // Call Aave V3 Pool withdraw(asset, amount, to)
+      const walletClient = await getWalletClient(getWagmiConfig(), {
+        chainId: network.id,
+      });
+      const hash = await walletClient.writeContract({
+        address: AAVE_V3_POOL as `0x${string}`,
+        abi: AaveV3PoolABI,
+        functionName: "withdraw",
+        args: [strategy.asset.address!, amount, address!],
+        chain: networkToWagmiChain(network) as any,
+        account: address!,
+      });
 
       updateOperation({
         id: operation.id,
@@ -162,7 +157,7 @@ export const useWithdraw = () => {
       toast.promise(withdrawPending, {
         loading: "Withdraw is pending...",
         success: "Withdraw transaction successful",
-        error: "withdraw reverted rejected 🤯",
+        error: "Withdraw reverted",
       });
       emmitStep({
         operationId: operation.id,
@@ -181,7 +176,7 @@ export const useWithdraw = () => {
       await withdrawPending;
       return operation;
     },
-    [withdraw, address, publicClient]
+    [address, publicClient, network.id, strategy.asset.address]
   );
 };
 

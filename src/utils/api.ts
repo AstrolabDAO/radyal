@@ -1,6 +1,5 @@
-import { abi as AgentABI } from "@astrolabs/registry/abis/StrategyV5.json";
 import axios from "axios";
-import { ContractFunctionParameters, zeroAddress } from "viem";
+import { zeroAddress } from "viem";
 import { getTokenBySlug } from "~/services/tokens";
 import { COINGECKO_API, TOKEN_BASENAME_REGEX } from "./constants";
 import { Strategy, Token } from "./interfaces";
@@ -15,7 +14,6 @@ import { Protocol } from "~/model/protocol";
 import { clearNetworkTypeFromSlug, stripSlug } from "./format";
 import { chainImages } from "./mappings";
 import { getRandomAPY, getRandomTVL } from "./mocking";
-import { multicall } from "./multicall";
 import { NETWORKS } from "./web3-constants";
 
 export const getTokenPrice = (token: Token) => {
@@ -129,10 +127,36 @@ export const getProtocols = async () => {
   return result.data.data;
 };
 
+/** Fetch live APY/TVL from mock-api's DeFi Llama proxy */
+export const getLiveStrategies = async () => {
+  try {
+    const result = await axios.get(
+      `${process.env.ASTROLAB_API}/strategies/live`
+    );
+    return result.data.data as Array<{
+      slug: string;
+      name: string;
+      apy: number;
+      tvl: number;
+      apyBase: number;
+      apyReward: number;
+      defiLlamaPool: string | null;
+    }>;
+  } catch {
+    return null;
+  }
+};
+
 export const getStrategies = async () => {
   const strategiesData = await axios
     .get(`${process.env.ASTROLAB_API}/strategies`)
     .then((res) => res.data.data as ApiResponseStrategy[]);
+
+  // Try to fetch live data for APY/TVL
+  const liveData = await getLiveStrategies();
+  const liveBySlug = new Map(
+    liveData?.map((s) => [s.slug, s]) ?? []
+  );
 
   const strategiesByNetwork: { [key: number]: ApiResponseStrategyWithIndex[] } =
     {};
@@ -152,9 +176,6 @@ export const getStrategies = async () => {
     );
   }
 
-  // Skip multicall for mock/demo data — strategies already have symbol/decimals/name from API
-  // In production, this would multicall on-chain contracts for live data
-
   return strategiesData
     .filter((strategy) => {
       const { nativeNetwork, nativeAddress } = strategy;
@@ -171,7 +192,6 @@ export const getStrategies = async () => {
         decimals,
         sharePrice,
         slug,
-        // asset,
         color1,
         color2,
         protocols,
@@ -184,16 +204,17 @@ export const getStrategies = async () => {
 
       const network = Network.bySlug[nativeNetwork];
 
-      const dailyAPY = strategy?.valuable?.last?.investedApyDaily;
+      // Use live data if available, fallback to static
+      const live = liveBySlug.get(slug);
+      const dailyAPY = live?.apy ?? strategy?.valuable?.last?.investedApyDaily;
       const mockApy = getRandomAPY(strategy.slug);
 
       // APY: investedApyDaily is already in percent form (e.g. 2.37 = 2.37%)
       // toPercent() expects a ratio (0.0237), so divide by 100
       const apy = dailyAPY ? Math.round(dailyAPY * 100) / 10000 : mockApy;
 
-      // TVL: use the pre-computed tvl field (already in USD) if available,
-      // fallback to calculated value only if needed
-      const rawTvl = strategy.tvl;
+      // TVL: use live data, then pre-computed tvl field, then fallback
+      const rawTvl = live?.tvl ?? strategy.tvl;
       const calculatedTVL =
         (valuable?.last?.volume * valuable?.last?.sharePrice);
       const tvl = rawTvl ? rawTvl : (calculatedTVL ? calculatedTVL : getRandomTVL(strategy.slug));

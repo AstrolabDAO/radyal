@@ -1,40 +1,26 @@
-import StratV5Abi from "@astrolabs/registry/abis/StrategyV5.json";
-
-import { createPublicClient, getContract, http } from "viem";
 import { OperationStep } from "~/model/operation";
 import { ActionInteraction } from "~/store/swapper";
-import { networkToWagmiChain } from "../format";
 import { Estimation, Strategy } from "../interfaces";
 
+/**
+ * Preview Aave V3 supply/withdraw — 1:1 exchange rate.
+ * Aave aTokens accrue interest via rebasing, so supply/withdraw is always 1:1
+ * in terms of the underlying asset amount.
+ */
 export const previewStrategyTokenMove = async ({
   strategy,
   interaction,
   value,
 }: PreviewStrategyMoveProps): Promise<Estimation> => {
-  const publicClient = createPublicClient({
-    transport: http(),
-    chain: networkToWagmiChain(strategy.network),
-  });
-  const contract: any = getContract({
-    address: strategy.address,
-    abi: StratV5Abi.abi,
-    client: {
-      public: publicClient as never,
-    },
-  });
-
   const weiPerUnit =
     interaction === ActionInteraction.DEPOSIT
       ? strategy.asset.weiPerUnit
       : strategy.weiPerUnit;
 
-  const amount = BigInt(value * weiPerUnit);
+  const amount = BigInt(Math.round(value * weiPerUnit));
 
-  const previewAmount = (
-    interaction === ActionInteraction.DEPOSIT
-      ? await contract.read.previewDeposit([amount])
-      : await contract.read.previewRedeem([amount])
-  ) as bigint;
+  // Aave V3: 1:1 supply/withdraw (aTokens rebase)
+  const previewAmount = amount;
 
   const fromToken: any =
     interaction === ActionInteraction.DEPOSIT ? strategy.asset : strategy;
@@ -62,7 +48,7 @@ export const previewStrategyTokenMove = async ({
 
   return {
     id: window.crypto.randomUUID(),
-    estimation: estimation,
+    estimation,
     steps: [step],
     request: null,
   };

@@ -1,4 +1,3 @@
-import { abi as AgentABI } from "@astrolabs/registry/abis/StrategyV5.json";
 import {
   ICustomContractCall,
   getAllTransactionRequests,
@@ -18,39 +17,78 @@ import { ActionInteraction } from "~/store/swapper";
 import { store } from "~/store";
 import { emmitStep } from "./operation";
 
-export const depositCallData = (address: string, toAmount: string) => {
-  return generateCallData({
-    abi: AgentABI,
-    functionName: "safeDeposit",
-    args: [toAmount, "0", address],
+// Aave V3 Pool ABI (supply + withdraw only)
+const AaveV3PoolABI = [
+  {
+    name: "supply",
+    type: "function",
+    stateMutability: "nonpayable",
+    inputs: [
+      { name: "asset", type: "address" },
+      { name: "amount", type: "uint256" },
+      { name: "onBehalfOf", type: "address" },
+      { name: "referralCode", type: "uint16" },
+    ],
+    outputs: [],
+  },
+  {
+    name: "withdraw",
+    type: "function",
+    stateMutability: "nonpayable",
+    inputs: [
+      { name: "asset", type: "address" },
+      { name: "amount", type: "uint256" },
+      { name: "to", type: "address" },
+    ],
+    outputs: [{ name: "", type: "uint256" }],
+  },
+] as const;
+
+// Aave V3 Pool address on Base
+const AAVE_V3_POOL = "0xA238Dd80C259a72e81d7e4664a9801593F98d1c5";
+
+export const depositCallData = (
+  asset: string,
+  amount: string,
+  onBehalfOf: string
+) => {
+  return encodeFunctionData({
+    abi: AaveV3PoolABI,
+    functionName: "supply",
+    args: [
+      asset as `0x${string}`,
+      BigInt(amount),
+      onBehalfOf as `0x${string}`,
+      0,
+    ],
+  });
+};
+
+export const withdrawCallData = (
+  asset: string,
+  amount: string,
+  to: string
+) => {
+  return encodeFunctionData({
+    abi: AaveV3PoolABI,
+    functionName: "withdraw",
+    args: [asset as `0x${string}`, BigInt(amount), to as `0x${string}`],
   });
 };
 
 export const approvalCallData = (spender: string, amount: string) => {
-  return generateCallData({
+  return encodeFunctionData({
     abi: erc20Abi,
     functionName: "approve",
-    args: [spender, amount],
-  });
-};
-
-export const generateCallData = ({
-  functionName,
-  args,
-  abi = erc20Abi,
-}: GenerateCallDataProps) => {
-  return encodeFunctionData({
-    abi,
-    functionName,
-    args,
+    args: [spender as `0x${string}`, BigInt(amount)],
   });
 };
 
 export const getSwapRoute = async (_value?: number) => {
   const { address } = getAccount(getWagmiConfig());
-  const store = getSwapperStore();
-  const interaction = store.interaction;
-  const { from: basefrom, to: baseTo, value } = store[interaction];
+  const swapperStore = getSwapperStore();
+  const interaction = swapperStore.interaction;
+  const { from: basefrom, to: baseTo, value } = swapperStore[interaction];
   const from = "asset" in basefrom ? basefrom.asset : basefrom;
   const to = "asset" in baseTo ? baseTo.asset : baseTo;
   const amount = BigInt(Math.round((_value ?? value) * from.weiPerUnit));
@@ -70,7 +108,8 @@ export const getSwapRoute = async (_value?: number) => {
   if (interaction === ActionInteraction.DEPOSIT) {
     const amountNumber = Number(amount);
 
-    const approval = approvalCallData(baseTo.address, amountNumber.toString());
+    // Approve the Aave V3 Pool to spend the asset token
+    const approval = approvalCallData(AAVE_V3_POOL, amountNumber.toString());
 
     customContractCalls.push({
       toAddress: to.address,
@@ -79,13 +118,18 @@ export const getSwapRoute = async (_value?: number) => {
       gasLimit: "200000",
     });
 
-    const callData = depositCallData(address, amountNumber.toString());
+    // Call supply() on Aave V3 Pool
+    const callData = depositCallData(
+      to.address,
+      amountNumber.toString(),
+      address!
+    );
 
     customContractCalls.push({
-      toAddress: baseTo.address,
+      toAddress: AAVE_V3_POOL,
       callData,
       inputPos: 0,
-      gasLimit: "250000",
+      gasLimit: "350000",
     });
   }
 
@@ -106,8 +150,8 @@ export const getSwapRoute = async (_value?: number) => {
   if (customContractCalls.length) {
     quoteOpts.postHook = [
       {
-        toAddress: baseTo.address,
-        callData: customContractCalls[0].callData,
+        toAddress: AAVE_V3_POOL,
+        callData: customContractCalls[customContractCalls.length - 1].callData,
       },
     ];
   }
@@ -115,11 +159,23 @@ export const getSwapRoute = async (_value?: number) => {
   return getAllTransactionRequests(quoteOpts);
 };
 
-interface GenerateCallDataProps {
+export { AaveV3PoolABI, AAVE_V3_POOL };
+
+export const generateCallData = ({
+  functionName,
+  args,
+  abi = erc20Abi,
+}: {
   functionName: any;
   abi: any;
   args: any[];
-}
+}) => {
+  return encodeFunctionData({
+    abi,
+    functionName,
+    args,
+  });
+};
 
 export const executeSwap = async (
   operation: Operation,
@@ -141,7 +197,7 @@ export const executeSwap = async (
   toast.promise(swapPending, {
     loading: "Swap transaction is pending...",
     success: "Swap transaction successful",
-    error: "Swap reverted rejected 🤯",
+    error: "Swap reverted rejected",
   });
 
   emmitStep({

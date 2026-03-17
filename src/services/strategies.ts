@@ -1,5 +1,5 @@
 import { Balance } from "~/utils/interfaces";
-import { abi as AgentAbi } from "@astrolabs/registry/abis/StrategyV5.json";
+import { erc20Abi } from "viem";
 
 import getBalances from "~/utils/multicall";
 
@@ -29,9 +29,10 @@ export const getStrategiesBalancesFromApi = async (
     for (const key of Object.keys(strategiesByChainId)) {
       const strategies = strategiesByChainId[key];
 
+      // Use ERC20 ABI to read aToken balances
       const calls = strategies.map((strategy) => ({
         address: strategy.address,
-        abi: AgentAbi,
+        abi: erc20Abi,
         token: strategy,
       }));
 
