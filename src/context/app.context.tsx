@@ -42,7 +42,7 @@ const AppProvider = () => {
   });
 
   const [coingeckoIds, enable] = useMemo(() => {
-    if (!tokens || !balances) return [[], false];
+    if (!tokens || !Array.isArray(balances)) return [[], false];
     const coingeckoIds = balances
       .filter((balance) => {
         const token = tokens.find((token) => token.slug === balance.token);
@@ -72,7 +72,7 @@ const AppProvider = () => {
   });
 
   useEffect(() => {
-    if (!STORE_IS_INIT || !balances) return;
+    if (!STORE_IS_INIT || !Array.isArray(balances)) return;
     dispatch(addBalances(balances));
   });
 
@@ -96,7 +96,7 @@ const AppProvider = () => {
         })
       );
       return;
-    } else if (!tokens || !balances || !prices) return;
+    } else if (!tokens || !Array.isArray(balances) || !prices) return;
     STORE_IS_INIT = true;
     dispatch(init({ tokens, balances, prices }));
   }, [tokens, balances, prices, dispatch, isConnected]);

@@ -34,6 +34,12 @@ export const initStore = async (store) => {
     const cachedVersion = await localforage.getItem("cacheVersion");
     if (cachedVersion !== CACHE_VERSION) {
       await localforage.clear();
+      // Also clear react-query localStorage cache
+      Object.keys(localStorage).forEach((key) => {
+        if (key.startsWith("REACT_QUERY") || key.startsWith("tanstack")) {
+          localStorage.removeItem(key);
+        }
+      });
       await localforage.setItem("cacheVersion", CACHE_VERSION);
       throw Error("Cache cleared for new version");
     }
