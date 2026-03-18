@@ -54,5 +54,13 @@ export default ({ mode }) => {
         { find: "@", replacement: resolve(__dirname, "./src") },
       ],
     },
+    server: {
+      proxy: {
+        "/v1": {
+          target: "http://172.22.0.2:4200",
+          changeOrigin: true,
+        },
+      },
+    },
   });
 };

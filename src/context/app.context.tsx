@@ -72,9 +72,10 @@ const AppProvider = () => {
   });
 
   useEffect(() => {
-    if (!STORE_IS_INIT || !Array.isArray(balances)) return;
-    dispatch(addBalances(balances));
-  });
+    if (!Array.isArray(balances) || balances.length === 0) return;
+    // Dispatch balances as soon as they arrive (don't wait for full init)
+    dispatch(setBalances(balances));
+  }, [balances]);
 
   useEffect(() => {
     if (isConnected) dispatch(setConnectedAddress(address));
@@ -86,19 +87,20 @@ const AppProvider = () => {
     dispatch(updateStrategiesPrices(prices));
   }, [prices]);
   useEffect(() => {
-    if (STORE_IS_INIT) return;
-    if (tokens && !isConnected && !STORE_IS_PARTIAL_INIT) {
-      STORE_IS_PARTIAL_INIT = true;
+    if (!tokens) return;
 
-      dispatch(
-        init({
-          tokens,
-        })
-      );
+    // Partial init (no wallet connected yet)
+    if (!isConnected && !STORE_IS_PARTIAL_INIT) {
+      STORE_IS_PARTIAL_INIT = true;
+      dispatch(init({ tokens }));
       return;
-    } else if (!tokens || !Array.isArray(balances) || !prices) return;
-    STORE_IS_INIT = true;
-    dispatch(init({ tokens, balances, prices }));
+    }
+
+    // Full init once we have everything
+    if (isConnected && Array.isArray(balances) && prices) {
+      STORE_IS_INIT = true;
+      dispatch(init({ tokens, balances, prices }));
+    }
   }, [tokens, balances, prices, dispatch, isConnected]);
 
   useEffect(() => {

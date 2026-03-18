@@ -9,9 +9,9 @@ import Header from "../layer/MainHeader";
 import { useLocation } from "react-router-dom";
 const Layout = ({ children }) => {
   const { accepted } = useContext(DisclaimerContext);
+  const location = useLocation();
 
   if (!accepted) return <DisclaimerPage />;
-  const location = useLocation();
 
   return (
     <>
